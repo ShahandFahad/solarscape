@@ -1,10 +1,10 @@
 import React from "react";
+import Navbar from "../components/navbar/Navbar";
 
 export default function MainLayout() {
   return (
-    <div>
-      <h1 class="text-xl font-bold underline">Solar Potential Analysis Tool</h1>
-      <></>
-    </div>
+    <>
+      <Navbar />
+    </>
   );
 }
