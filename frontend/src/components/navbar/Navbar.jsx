@@ -53,6 +53,13 @@ export default function Navbar() {
         {/* Sidebar */}
         <Sidebar navItems={navItems} />
       </div>
+      {/* Display a mask over whole screen when side bar is open */}
+      <div
+        className="nav-mask"
+        onClick={toggleSideBar}
+        role="button"
+        tabIndex="0"
+      ></div>
     </div>
   );
 }
