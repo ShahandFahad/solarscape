@@ -54,7 +54,7 @@ export default function Login() {
                   </div>
                 </div>
               </div>
-              <div class="pt-4 flex items-center space-x-4">
+              <div className="pt-4 flex items-center space-x-4">
                 <button
                   style={{ backgroundColor: "#f2f2f2" }}
                   className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
