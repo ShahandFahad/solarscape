@@ -7,7 +7,16 @@ import Topnav from "./Topnav";
 export default function Navbar() {
   const [displaySidebar, setdisplaySidebar] = useState(""); // By default hide side bar
   // convert this to object: diplay key in name and link in href
-  const navItems = ["Home", "About", "Contact", "Sign up", "Login"]; // Menu items
+  // const navItems = ["Home", "About", "Contact", "Sign up", "Login"]; // Menu items
+
+  // App links: map over this display name in lable and links in to attribute
+  const links = {
+    Home: "/",
+    About: "/about",
+    Contact: "/contact",
+    "Sign up": "/signup",
+    Login: "/login",
+  }; // Menu items
 
   // Toggle sidebar when hamburger button is clicked
   const toggleSideBar = (e) => {
@@ -49,9 +58,12 @@ export default function Navbar() {
           </a>
         </div>
         {/* Top Navbar */}
-        <Topnav navItems={navItems} />
+        <Topnav links={links} />
         {/* Sidebar */}
-        <Sidebar navItems={navItems} />
+        {/* 
+          Passing the toggle function when side link is clicked it navigated and hide the side the side bar
+         */}
+        <Sidebar links={links} toggleSideBar={toggleSideBar} />
       </div>
       {/* Display a mask over whole screen when side bar is open */}
       <div
