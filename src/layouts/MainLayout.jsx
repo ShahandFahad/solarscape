@@ -13,12 +13,14 @@ export default function MainLayout() {
       {/* Navbar: Contains: Top Navbar and Sidebar */}
       <Navbar />
       {/* Basic Routes need to authorized */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <div className="mt-14">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </div>
     </>
   );
 }
