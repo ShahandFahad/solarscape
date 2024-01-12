@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
@@ -54,7 +55,7 @@ export default function Login() {
                   </div>
                 </div>
               </div>
-              <div className="pt-4 flex items-center space-x-4">
+              <div className="pt-4 flex items-center space-x-4 mb-4">
                 <button
                   style={{ backgroundColor: "#f2f2f2" }}
                   className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
@@ -81,6 +82,18 @@ export default function Login() {
                 >
                   Login
                 </button>
+              </div>
+
+              <div className="pt-4 flex justify-center items-center space-x-4">
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  New to Solar Scape?
+                </p>{" "}
+                {/* Navigate to /signup Page to register*/}
+                <Link to="/signup">
+                  <h2 className="leading-relaxed font-bold text-orange-400 hover:text-orange-600">
+                    Join Now
+                  </h2>
+                </Link>
               </div>
             </div>
           </div>
