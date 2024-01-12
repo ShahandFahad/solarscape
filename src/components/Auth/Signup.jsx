@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import sun from "../../assets/images/sun.png";
 
 export default function Signup() {
   return (
@@ -8,7 +10,7 @@ export default function Signup() {
           <div className="max-w-md mx-auto">
             <div className="flex items-center space-x-5">
               <div className="h-14 w-14 bg-yellow-200 rounded-full flex flex-shrink-0 justify-center items-center text-yellow-500 text-2xl font-mono">
-                S
+                <img className="bg-white" alt="Logo" src={sun} />
               </div>
               <div className="block pl-2 font-semibold text-xl self-start text-gray-700">
                 <h2 className="leading-relaxed">Register Account</h2>
@@ -98,7 +100,7 @@ export default function Signup() {
                   </div>
                 </div>
               </div>
-              <div className="pt-4 flex items-center space-x-4">
+              <div className="pt-4 flex items-center space-x-4 mb-4">
                 <button
                   style={{ backgroundColor: "#f2f2f2" }}
                   className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
@@ -125,6 +127,17 @@ export default function Signup() {
                 >
                   Register
                 </button>
+              </div>
+              <div className="pt-4 flex justify-center items-center space-x-4">
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  Already have an account?
+                </p>{" "}
+                {/* Navigate to /login Page to register*/}
+                <Link to="/login">
+                  <h2 className="leading-relaxed font-bold text-orange-400 hover:text-orange-600">
+                    Login
+                  </h2>
+                </Link>
               </div>
             </div>
           </div>
