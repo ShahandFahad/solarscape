@@ -4,7 +4,11 @@ import {
   TileLayer,
   LayersControl,
   ZoomControl,
+  Marker,
+  Popup,
 } from "react-leaflet";
+import { Icon } from "leaflet";
+import locationIcon from "../assets/images/location.png";
 
 import "leaflet/dist/leaflet.css";
 
@@ -34,6 +38,12 @@ export default function Home() {
       [90, 180],
     ]);
   }, []);
+
+  // Setup custom marker for the map
+  const locationMarker = new Icon({
+    iconUrl: locationIcon,
+    iconSize: [42, 42],
+  });
 
   return (
     <div style={{ marginTop: "60px" }}>
@@ -80,6 +90,13 @@ export default function Home() {
               attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
             />
           </LayersControl.BaseLayer>
+
+          {/* Pop Up Marker */}
+          <Marker position={center} icon={locationMarker}>
+            <Popup>
+              Current Marked Location: <br /> {center}.
+            </Popup>
+          </Marker>
         </LayersControl>
       </MapContainer>
     </div>
