@@ -63,6 +63,15 @@ export default function Home() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
           </LayersControl.BaseLayer>
+
+          {/* Layer 2: Staellite Layer */}
+          <LayersControl.BaseLayer name="Satellite">
+            <TileLayer
+              noWrap={false}
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+          </LayersControl.BaseLayer>
         </LayersControl>
       </MapContainer>
     </div>
