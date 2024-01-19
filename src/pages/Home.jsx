@@ -11,6 +11,7 @@ import { Icon } from "leaflet";
 import locationIcon from "../assets/images/location.png";
 
 import "leaflet/dist/leaflet.css";
+import styled from "styled-components";
 
 /**
  * - Set initial home screen for user
@@ -44,6 +45,20 @@ export default function Home() {
     iconUrl: locationIcon,
     iconSize: [42, 42],
   });
+
+  // Making a styled controls component
+  const Controls = styled.div`
+    position: absolute;
+    z-index: 500;
+    top: 25px;
+    left: 25px;
+    background: #fff;
+    box-shadow: 0 6px 20px 3px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    max-height: calc(100% - 50px);
+    overflow-y: auto;
+    border-radius: 10px;
+  `;
 
   return (
     <div style={{ marginTop: "60px" }}>
@@ -98,6 +113,20 @@ export default function Home() {
             </Popup>
           </Marker>
         </LayersControl>
+
+        {/* Custom Styled Overlay Control Section. Used to Get Location or Lattitude and Logititude and Other Input parameters */}
+        <Controls>
+          <div className="flex m-4 gap-2">
+            <input
+              type="text"
+              placeholder="Search by location"
+              className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300"
+            />
+            <button className="bg-orange-500 p-2  h-auto rounded text-white font-bold text-l">
+              Search
+            </button>
+          </div>
+        </Controls>
       </MapContainer>
     </div>
   );
