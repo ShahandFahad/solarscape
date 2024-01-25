@@ -16,6 +16,7 @@ export default function Navbar() {
     Contact: "/contact",
     "Sign up": "/signup",
     Login: "/login",
+    Profile: "/profile",
   }; // Menu items
 
   // Toggle sidebar when hamburger button is clicked
