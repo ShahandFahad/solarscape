@@ -1,0 +1,4 @@
+# ignore node modules
+node_modules
+# Avoid pushing .env file to github. Insted .env.example is to be pushed for reference
+.env
