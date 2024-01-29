@@ -1,4 +1,12 @@
 # ignore node modules
-node_modules
-# Avoid pushing .env file to github. Insted .env.example is to be pushed for reference
-.env
+services/dataretrieval/node_modules
+services/solarcalculation/node_modules
+services/usermanagement/node_modules
+
+# Avoid pushing .env file to github. Insted .env.example is to be pushed for deveoper reference
+services/dataretrieval/config/env/.env.development
+services/dataretrieval/config/env/.env.production
+services/solarcalculation/config/env/.env.development
+services/solarcalculation/config/env/.env.production
+services/usermanagement/config/env/.env.development
+services/usermanagement/config/env/.env.production
