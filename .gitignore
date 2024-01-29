@@ -4,9 +4,9 @@ services/solarcalculation/node_modules
 services/usermanagement/node_modules
 
 # Avoid pushing .env file to github. Insted .env.example is to be pushed for deveoper reference
-services/dataretrieval/config/.env.development
-services/dataretrieval/config/.env.production
-services/solarcalculation/config/.env.development
-services/solarcalculation/config/.env.production
-services/usermanagement/config/.env.development
-services/usermanagement/config/.env.production
+services/dataretrieval/config/env/.env.development
+services/dataretrieval/config/env/.env.production
+services/solarcalculation/config/env/.env.development
+services/solarcalculation/config/env/.env.production
+services/usermanagement/config/env/.env.development
+services/usermanagement/config/env/.env.production
