@@ -9,10 +9,11 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+//  User routes
+const userRoutes = require("./src/routes/userRoutes");
+
 // Routes
-app.get("/api/v1/user", (req, res) => {
-  res.status(200).send("User Management Serivice");
-});
+app.use("/api/v1/user", userRoutes);
 
 // Handle Non-Existing Routes: Return 404
 app.all("*", (req, res) => {
