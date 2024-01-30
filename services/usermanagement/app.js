@@ -1,10 +1,23 @@
 const express = require("express");
 const app = express();
 
-app.use(express.json()); // json parser
+app.use(express.json()); // json parser: req handler middleware
 
-app.get("/", (req, res) => {
-  res.status(200).send("User Management Serivice");
+// Run in development env
+if (process.env.NODE_ENV === "development") {
+  const morgan = require("morgan");
+  app.use(morgan("dev"));
+}
+
+//  User routes
+const userRoutes = require("./src/routes/userRoutes");
+
+// Routes
+app.use("/api/v1/user", userRoutes);
+
+// Handle Non-Existing Routes: Return 404
+app.all("*", (req, res) => {
+  res.status(404).json({ staus: "Failed", message: "Not Found!" });
 });
 
 module.exports = app;
