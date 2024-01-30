@@ -9,7 +9,7 @@ exports.createUser = (req, res) => {
 };
 
 // GET: Get user by ID
-exports.getAllUsers = (req, res) => {
+exports.getUser = (req, res) => {
   res.status(200).json({ status: "Success", message: "Get User by ID" });
 };
 
