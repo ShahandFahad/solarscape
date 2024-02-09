@@ -2,6 +2,7 @@ const User = require("../models/userModel"); // User model
 const catchAsync = require("../utils/catchAsync"); // Handle try-catch
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
+const { promisify } = require("util"); // from util we need promisify
 
 // Generate Token using user id
 const signToken = (id) => {
@@ -101,4 +102,70 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 3) If everything is oky send token to the client
   createTokenAndResponse(user, 200, res);
+});
+
+// Routes Protection
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Getting and token and check if it is there
+  // Token is stored in header {Authorization : Bearer token...}
+
+  // Store token
+  let token;
+  // Check authorization header and check if it starts with : Bearer (Convention)
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    // Store token: Split authorization value by space and store 2nd value in the token
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  // Check for token
+  if (!token) {
+    return next(
+      new AppError("You're not logged in! Please login to get access.", 401)
+    );
+  }
+
+  // 2) Token Verification  (Verify token, as if the payload(_id) is not modified, or token is already expired)
+  // In order to keep the nature of the async and awit: Promisify this function
+  // As it is an async function
+  // jwt.verify call the function ( token and process.env etc)
+  // Returns a decoded payload
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  /**
+   * Any error generated via this is handled in errorController.js
+   * For production and development seperatly handled
+   */
+
+  // 3) Check if user stil exits
+  // The decoded data contain user id, use for looking for user in db
+  const currentUser = await User.findById(decoded.id);
+
+  if (!currentUser) {
+    return next(
+      new AppError(
+        "The user belonging to this token does no longer exists.",
+        401
+      )
+    );
+  }
+
+  // 4) Check if user changed password after the token (JWT) was issueed
+  // Using the instance method defined for checking password changes in userModel.js
+  if (
+    currentUser.changedPasswordAfter(decoded.iat /* .iat is for: issussed at */)
+  ) {
+    return next(
+      new AppError("User recently chaged password! Pleaase login again.", 401)
+    );
+  }
+
+  // 5) If everything is right, give access to the protected route
+  // GRANT ACCESS TO PROTECTED ROUTES (next middleware)
+  // put user data on req.user: If user reaches here, means everything is correct
+  // So, that it can be utilized in next middleware
+  req.user = currentUser;
+  next();
 });

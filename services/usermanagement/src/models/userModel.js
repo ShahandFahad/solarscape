@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema({
       },
     },
   },
+  passwordChangedAt: Date, // This property specifies that user has changed password or not
   role: {
     type: String,
     enum: {
@@ -94,6 +95,42 @@ userSchema.methods.validatePassword = async (
 ) => {
   // By using bycrypt compare function validate password
   return bcrypt.compare(candidatePassword, userPassword);
+};
+
+// This modifies and add passwordChangedAt Field to the user document, before saving
+userSchema.pre("save", function (next) {
+  // Check if it is new document or password is not modified, then return
+  if (!this.isModified("password") || this.isNew) return next();
+
+  // Otherwise update the field
+  // Subtract 1 second from it. So just incase any token delay issue etc
+  this.passwordChangedAt = Date.now() - 1000; // 1000 = 1sec
+
+  next();
+});
+
+// Check wether passord is changed or not after token is generated
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  /**
+   * For most user this property (this.passwordChangedAt) will not exits in the document
+   * Unless user changed passowrd and the property get defined in the document
+   * The Start the comparion with the JWT Timestamp
+   */
+
+  // If password is changed then compare
+  if (this.passwordChangedAt) {
+    // Convert it to timestamp like jwt
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    ); // convert to seconds from milliseconds and specify base: 10
+
+    // Compare and return
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // By default return false: False means NOT changed
+  return false; // If password is not changed after issuing token
 };
 
 // Make Model out of useSchema

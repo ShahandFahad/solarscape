@@ -6,6 +6,8 @@
  *
  */
 
+const AppError = require("../utils/appError");
+
 // Development erro handler
 const sendErrorDev = (err, res) => {
   // Send response
@@ -18,6 +20,10 @@ const sendErrorDev = (err, res) => {
   });
 };
 
+// Production Errors
+const handleJWTError = () =>
+  new AppError("Invalid token! Please login again.", 401);
+
 // ERROR MODULE
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -29,6 +35,7 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     // Handle all production errors.
     // TODO: Handle production error
-    return;
+    // Handle invalid token error: JsonWebTokenError
+    if (err.name === "JsonWebTokenError") err = handleJWTError();
   }
 };

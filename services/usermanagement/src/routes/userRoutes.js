@@ -24,7 +24,7 @@ router.post("/login", authController.login);
 // Router setup
 router
   .route("/")
-  .get(userController.getAllUsers)
+  .get(authController.protect, userController.getAllUsers)
   .post(userController.createUser);
 
 router
