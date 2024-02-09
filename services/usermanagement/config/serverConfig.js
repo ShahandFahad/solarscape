@@ -1,3 +1,6 @@
+// Database connection function
+const connectToDatabase = require("./dbConfig");
+
 /* GLOBAL SYNCHRONOUS ERROR HANDLER */
 // Anywhere in th application, When a synchronous code exception is not handled
 // This block of code will handle it.
@@ -15,6 +18,10 @@ process.on("uncaughtException", (error) => {
 require("dotenv").config({ path: `${__dirname}/env/.env.development` });
 // import app.js here
 const app = require("../app");
+
+// DB connection
+const connString = process.env.DATABASE_URL;
+connectToDatabase(connString); // Connect to DB
 
 // Start server
 const port = process.env.PORT || 8000;
