@@ -18,8 +18,23 @@ const app = require("../app");
 
 // Start server
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(
     `User Management: Server is running on: http://localhost:${port}`
   );
+});
+
+// Asynchronus code promise rejection handler when not handled
+// Globally Handling: Unhandled promise rejection. Any where in application where a promise rejection is not handled
+// using event listener
+process.on("unhandledRejection", (error) => {
+  console.log("UNHANDLED REJECTION (Asynchronous): 🔥 Shutting down...");
+  console.log("Error name: ", err.name, " : Error Message: ", err.message);
+
+  // Shut down the application: .exit(0) -> success : .exit(1) -> unhandled exception
+  // Shut down gracefully by first finishing all the request and then shutting down
+  server.close(() => {
+    // finsih all requests
+    process.exit(1); // shutdown application
+  });
 });
