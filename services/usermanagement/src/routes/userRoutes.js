@@ -16,6 +16,8 @@ const userController = require("../controllers/userController");
 
 // User Signup
 router.post("/signup", authController.signup);
+// User Login
+router.post("/login", authController.login);
 
 // These routes are managed by SYSTEM Admin
 

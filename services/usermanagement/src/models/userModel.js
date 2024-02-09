@@ -87,6 +87,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Passowrd Validation during login using instance method (Available on all documents)
+userSchema.methods.validatePassword = async (
+  candidatePassword, // form request body
+  userPassword // encrypted password from db
+) => {
+  // By using bycrypt compare function validate password
+  return bcrypt.compare(candidatePassword, userPassword);
+};
+
 // Make Model out of useSchema
 const User = mongoose.model("User", userSchema);
 
