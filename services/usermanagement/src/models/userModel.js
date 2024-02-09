@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"); // elegant mongodb object modeling for node.js
 const validator = require("validator"); // A library of string validators and sanitizers
+const bcrypt = require("bcrypt");
 
 // Create User Model
 const userSchema = new mongoose.Schema({
@@ -55,6 +56,35 @@ const userSchema = new mongoose.Schema({
     default: Date.now(),
     select: false, // automatically hides the field
   },
+});
+
+/**
+ * PASSWORD ENCRYPTION
+ * Using mongoose middleware for encrypting user passowrd
+ * Following the Fat Models and Thin Controllers.
+ * As: Controllers are to be kept minimilistic and Models for all the business logic
+ *
+ * This middleware run in between the data to be stored to the database
+ * So, manipulating (Performing operations on them) the data in the middle: Before storing to DB
+ *
+ * Instead of using arrow function use the traditional callback function to access this (keyoword
+ *
+ * Async function to stop blocking event loop
+ */
+
+userSchema.pre("save", async function (next) {
+  // If password is not modified then return
+  if (!this.isModified("password")) return next();
+
+  // If password is modified, the encrypt it using "bcrypt"
+  const COST = 12; // Hash cost
+  this.password = await bcrypt.hash(this.password, COST); // Encrypt password
+
+  // After encrypting password delete confirmPassword Field as it is only for validation
+  this.confirmPassword = undefined; // Remove this field
+
+  // Call next middleware
+  next();
 });
 
 // Make Model out of useSchema
