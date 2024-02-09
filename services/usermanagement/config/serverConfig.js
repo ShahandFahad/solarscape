@@ -7,7 +7,7 @@ const connectToDatabase = require("./dbConfig");
 // Using event listener
 process.on("uncaughtException", (error) => {
   console.log("UNCAUGHT EXCEPTION (Synchronous): 🔥 Shutting down...");
-  console.log("Error name: ", err.name, " : Error Message: ", err.message);
+  console.log("Error name: ", error.name, " : Error Message: ", error.message);
 
   // Shutdown the application gracefully
   // Shut down the application: .exit(0) -> success : .exit(1) -> unhandled exception
@@ -36,7 +36,7 @@ const server = app.listen(port, () => {
 // using event listener
 process.on("unhandledRejection", (error) => {
   console.log("UNHANDLED REJECTION (Asynchronous): 🔥 Shutting down...");
-  console.log("Error name: ", err.name, " : Error Message: ", err.message);
+  console.log("Error name: ", error.name, " : Error Message: ", error.message);
 
   // Shut down the application: .exit(0) -> success : .exit(1) -> unhandled exception
   // Shut down gracefully by first finishing all the request and then shutting down
