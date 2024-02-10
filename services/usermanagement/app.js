@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require("cors");
 
 // Utilities
 const AppError = require("./src/utils/appError"); // Custom error handler
@@ -7,6 +8,7 @@ const globalErrorHandler = require("./src/controllers/errorController"); // Hand
 // APP
 const app = express();
 
+app.use(cors()); // allowing cross-origin
 app.use(express.json()); // json parser: req handler middleware
 
 // Run in development env
