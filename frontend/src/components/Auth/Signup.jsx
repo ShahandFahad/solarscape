@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import sun from "../../assets/images/sun.png";
 
 // Import validators
@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
  */
 import styled from "styled-components";
 import axios from "axios";
+import { useAuth } from "../../provider/authProvider";
 // Custom loader
 const Spinner = styled.div`
   width: 24px;
@@ -61,10 +62,16 @@ export default function Signup() {
     {}
   );
 
-  //
+  // Auth
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+
+  // Data
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  //
 
   // Toast for unsuccessful user registeration
   const notify = (errName) =>
@@ -213,16 +220,15 @@ export default function Signup() {
         if (response.status === 201) {
           console.log("User signed up successfully!");
           console.log(response.data);
-          // Handle successful signup, e.g., redirect to success page
-          //   axios.defaults.headers.common[
-          //     "Authorization"
-          //   ] = `Bearer ${response.data.token}`;
-
           setResponseData(response.data);
+
+          // redirect to success page
+          // Set token to local storage and naviage
+          setToken(response.data.token);
+          navigate("/", { replace: true }); // load home screen client side
         } else {
           console.error("Error signing up user:", response.data);
           // Handle API error gracefully, e.g., display user-friendly message
-
           // Notify user if fails
           notify(response.data.name);
         }
