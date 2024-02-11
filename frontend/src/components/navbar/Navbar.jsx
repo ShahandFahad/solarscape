@@ -14,8 +14,9 @@ export default function Navbar() {
     Home: "/",
     About: "/about",
     Contact: "/contact",
-    "Sign up": "/signup",
-    Login: "/login",
+    // "Sign up": "/signup",
+    // Login: "/login",
+    Logout: "/logout",
     Profile: "/profile",
   }; // Menu items
 
