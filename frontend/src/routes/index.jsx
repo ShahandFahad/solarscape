@@ -5,6 +5,7 @@ import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
 import Admin from "../admin/Admin";
 import MainLayout from "../layouts/MainLayout";
+import Logout from "../components/Auth/Logout";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -55,7 +56,7 @@ const Routes = () => {
         },
         {
           path: "/logout",
-          element: <div>Logout</div>,
+          element: <Logout />,
         },
       ],
     },
