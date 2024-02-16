@@ -236,6 +236,12 @@ export default function Home() {
 
         {/* Custom Styled Overlay Control Section. Used to Get Location or Lattitude and Logititude and Other Input parameters */}
         <Controls>
+          <div className="m-4">
+            <h1 className="text-xl font-bold text-orange-500">
+              Solar Photovoltic Power (PVWatts)
+            </h1>
+          </div>
+          <hr />
           <div className="flex m-4 gap-2">
             <input
               type="text"
@@ -255,6 +261,124 @@ export default function Home() {
               {!isLoading ? "Search" : <Spinner />}
             </button>
             {/* <Spinner class="loader"></Spinner> */}
+          </div>
+
+          {/* Corodinates Box */}
+          <div className="flex m-4 gap-2 items-center">
+            <h1 className="text-gray-900 text-l">Lat</h1>
+            <input
+              style={{ width: "40px" }}
+              type="text"
+              placeholder={center[0]}
+              value={newCenter[0]}
+              className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+            />
+            <h1 className="text-gray-900 text-l">Lon</h1>
+            <input
+              style={{ width: "40px" }}
+              type="text"
+              placeholder={center[1]}
+              value={newCenter[1]}
+              className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+            />
+
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 text-gray-900"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                />
+              </svg>
+            </>
+          </div>
+
+          <hr />
+
+          {/* Solar PV Data Parameters */}
+          <div className="m-4 flex flex-col gap-4">
+            {/* DC System Size */}
+            <div>
+              <h1 className="text-gray-900 text-l">DC System Size(KW)</h1>
+              <input
+                type="text"
+                placeholder=""
+                value={4}
+                className="w-full flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+              />
+            </div>
+            {/* System Loss */}
+            <div>
+              <h1 className="text-gray-900 text-l">System Loss(%)</h1>
+              <input
+                type="text"
+                placeholder=""
+                value={14.8}
+                className="w-full flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+              />
+            </div>
+            {/* Tilt in Degree */}
+            <div>
+              <h1 className="text-gray-900 text-l">Tilt(Deg)</h1>
+              <input
+                type="text"
+                placeholder=""
+                value={35}
+                className="w-full flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+              />
+            </div>
+            {/*  Azimuth Angel*/}
+            <div>
+              <h1 className="text-gray-900 text-l">Azimuth(Deg)</h1>
+              <input
+                type="text"
+                placeholder=""
+                value={180}
+                className="w-full flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
+              />
+            </div>
+
+            {/* Check box for raw data */}
+            <div>
+              <div class="flex items-center">
+                <input
+                  id="default-checkbox"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  "
+                />
+                <label
+                  for="default-checkbox"
+                  class="ms-2 text-sm font-medium text-gray-900"
+                >
+                  Include Raw Data
+                </label>
+              </div>
+              <span className="dark:text-gray-400">
+                Tick the box to add additional raw data for improved
+                perfomrance.
+              </span>
+            </div>
+            <hr />
+            {/* Run Button */}
+            <div className="flex justify-end">
+              {/* TODO: UPDATE THIS BUTTON. WHEN CORDINATES ARE AVAILABLE MAKE IT ENABLE */}
+              <button
+                style={{ height: 36.4, width: 56.04 }}
+                // onClick={handleClick}
+                className="bg-orange-500 p-2 rounded text-white font-bold text-"
+              >
+                {/* If no laading display "Search". If loading Display spinner  */}
+                {!isLoading ? "Result" : <Spinner />}
+              </button>
+            </div>
           </div>
         </Controls>
         <ToastContainer />
