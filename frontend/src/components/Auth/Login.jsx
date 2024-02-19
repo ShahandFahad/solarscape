@@ -3,39 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import sun from "../../assets/images/sun.png";
 
 // Import validators
-import {
-  validateEmail,
-  validateName,
-  validatePassword,
-  validateConfirmPassword,
-} from "./validate";
+import { validateEmail, validatePassword } from "./validate";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import styled from "styled-components";
 import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
-// Custom loader
-const Spinner = styled.div`
-  width: 24px;
-  height: 24px;
-  border: 5px solid #fff;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+import Spinner from "../../components/spinner/Spinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -137,7 +112,8 @@ export default function Login() {
         if (response.status === 200 && response.data.status === "Success") {
           console.log("User is logged In!: ", response.status);
           console.log(response.data);
-
+          console.log(response.data.data.user._id);
+          localStorage.setItem("UserID", response.data.data.user._id);
           // Store user login token
           setToken(response.data.token);
           // Navigate user to home page
