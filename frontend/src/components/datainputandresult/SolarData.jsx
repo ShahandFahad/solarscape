@@ -94,8 +94,8 @@ export default function SolarData({ onSubmit }) {
         </div>
 
         {/* Check box for raw data */}
-        <div>
-          <div className="flex items-center">
+        {/* <div> */}
+        {/* <div className="flex items-center">
             <input
               id="default-checkbox"
               type="checkbox"
@@ -109,16 +109,23 @@ export default function SolarData({ onSubmit }) {
             >
               Include Raw Data
             </label>
-          </div>
-          <span className="dark:text-gray-400">
-            Tick the box to add additional raw data for improved perfomrance.
-            <br />
-            {/* TODO: */}
-            {/* Navigate to Public landing page where each field is explained */}
-            <a href="service">Learn more.</a>
+          </div> */}
+        {/* <span className="dark:text-gray-400"> */}
+        {/* Tick the box to add additional raw data for improved perfomrance. */}
+        {/* <br /> */}
+        {/* TODO: */}
+        {/* Navigate to Public landing page where each field is explained */}
+        {/* <a href="service">Learn more.</a>
           </span>
-        </div>
+        </div> */}
+        <span className="dark:text-gray-400">
+          {/* Tick the box to add additional raw data for improved perfomrance. */}
+          {/* TODO: */}
+          {/* Navigate to Public landing page where each field is explained */}
+          <a href="service">Learn more.</a>
+        </span>
         <hr />
+
         {/* Run Button */}
         <div className="flex justify-end">
           {/* TODO: UPDATE THIS BUTTON. WHEN CORDINATES ARE AVAILABLE MAKE IT ENABLE */}
