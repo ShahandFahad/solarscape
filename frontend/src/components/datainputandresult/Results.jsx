@@ -17,7 +17,7 @@ const ResultPloting = styled.div`
   border-radius: 10px;
   cursor: default;
 `;
-export default function Results({ result, setResult }) {
+export default function Results({ result, setResult, setAddressFound }) {
   // console.log("Result CARD: ", result, typeof result);
   // System INFO:
   return (
@@ -25,7 +25,11 @@ export default function Results({ result, setResult }) {
     result && (
       <ResultPloting>
         {/* Display a Table on data parametes posted to server and recieve setResult state via prop drilling*/}
-        <SystemInfo SystemInfo={result.SystemInfo} setResult={setResult} />
+        <SystemInfo
+          SystemInfo={result.SystemInfo}
+          setResult={setResult}
+          setAddressFound={setAddressFound}
+        />
         {/* Results */}
         <div className="border-t mt-4 pt-4">
           <h1 className="text-xl text-gray-600 font-bold mb-2">
