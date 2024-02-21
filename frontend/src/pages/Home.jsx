@@ -79,16 +79,17 @@ export default function Home() {
   ]);
 
   // Pakistan's coordinates are 30.375321 latitude and 69.345116 longitude.
-  const center = [30.375321, 69.345116]; // Sets the initial center coordinates of the map.
+  const center = [30.3753, 69.3451]; // Sets the initial center coordinates of the map.
   const zoom = 4; //  Sets the initial zoom level of the map.
 
   // Set initial coordinates and zoom level, and later update it
-  const [newCenter, setNewCenter] = useState([30.375321, 69.345116]);
+  const [newCenter, setNewCenter] = useState(center);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   // Get user address form input and set here
   const [address, setAddress] = useState("");
   const [result, setResult] = useState(null); // Initialize result state
+  const [addressFound, setAddressFound] = useState(false);
 
   // Provide OpenStreetMap Access
   const provider = new OpenStreetMapProvider();
@@ -113,14 +114,14 @@ export default function Home() {
     ]);
 
     // Initial Request so that data loads first for a specific location
-    provider
-      .search({ query: "Pakistan" })
-      .then(function (result) {
-        // Set new initial center
-        setNewCenter([result[0].y, result[0].x]);
-        console.log("New Center on Map load: ", newCenter);
-      })
-      .catch((error) => error.message);
+    // provider
+    //   .search({ query: "Pakistan" })
+    //   .then(function (result) {
+    //     // Set new initial center
+    //     setNewCenter([result[0].y, result[0].x]);
+    //     console.log("New Center on Map load: ", newCenter);
+    //   })
+    //   .catch((error) => error.message);
   }, []);
 
   // Setup custom marker for the map
@@ -142,14 +143,20 @@ export default function Home() {
     } else {
       console.log("Address: ", address);
       setIsLoading(true);
+      // If Result card is open then close it to avoid screen blocking
+      setResult(null);
 
       // Retrieve co-ordinates form address
       try {
         const searchResult = await provider.search({ query: address });
-        // Set new center
-        setNewCenter([searchResult[0].y, searchResult[0].x]);
-        console.log("New Center after search: ", newCenter);
+        // Set new center: Round to 4 decimal places
+        setNewCenter([
+          searchResult[0].y.toFixed(4),
+          searchResult[0].x.toFixed(4),
+        ]);
+        console.log("Address Found: New Coordinates: ", newCenter);
         setIsLoading(false);
+        setAddressFound(true);
       } catch (error) {
         console.error("Address retrieval failed:", error.message);
         // Display a user-friendly error message
@@ -172,8 +179,8 @@ export default function Home() {
         "http://localhost:8003/api/v1/solar/pv-assessment",
         formData
       );
-      console.log("Post Request: ", res);
-      console.log("Data Send to Server: ", formData);
+      console.log("Server Request: ", formData);
+      console.log("Server Response: ", res);
 
       // Store the result in this form
       // System info: The data posted to server
@@ -241,11 +248,12 @@ export default function Home() {
           </LayersControl.BaseLayer>
 
           {/* Pop Up Marker: The Marker updates with the newCenter for the map */}
+
           <Marker position={[newCenter[0], newCenter[1]]} icon={locationMarker}>
             <Popup>
-              Co-Ordinates: {newCenter[0]}, {newCenter[1]}
+              Lat: {newCenter[0]}, Lon: {newCenter[1]}
               <br />
-              Address: {address}.
+              Location: {address || "Pakistan"}
             </Popup>
           </Marker>
         </LayersControl>
@@ -271,6 +279,7 @@ export default function Home() {
               className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
               value={address}
               onChange={handleChange}
+              required
             />
 
             {/* Search button */}
@@ -285,14 +294,30 @@ export default function Home() {
             {/* <Spinner class="loader"></Spinner> */}
           </div>
           {/* Corodinates Box */}
-          <Corodinate lat={newCenter[0]} lon={newCenter[1]} />
+          <Corodinate
+            lat={addressFound ? newCenter[0] : ""}
+            lon={addressFound ? newCenter[1] : ""}
+          />
           <hr />
           {/* Load Solar Data Paramters component */}
-          <SolarData onSubmit={handleSubmit} />
+          {/* TODO: Check for coordinates: when not diable result button */}
+          <SolarData
+            onSubmit={handleSubmit}
+            addressFound={addressFound}
+            setAddress={setAddress}
+          />
           <hr />
         </Controls>
-        {/* Pass the setResult via prop drilling to SolarInfo.jsx which set result to null and closed this Results.jsx card */}
-        {result && <Results result={result} setResult={setResult} />}
+        {/* 
+        Pass the setResult and setAddressFound via prop drilling to SolarInfo.jsx which set result to null and setAddressFound to false and closed this Results.jsx card 
+        */}
+        {result && (
+          <Results
+            result={result}
+            setResult={setResult}
+            setAddressFound={setAddressFound}
+          />
+        )}
         <ToastContainer />
       </MapContainer>
     </div>
