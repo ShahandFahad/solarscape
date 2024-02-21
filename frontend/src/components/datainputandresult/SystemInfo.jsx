@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SystemInfo({ SystemInfo, setResult }) {
+export default function SystemInfo({ SystemInfo, setResult, setAddressFound }) {
   /* This is a static table on displays the exact info all the time
         convert to a component and pass only the specific data */
 
@@ -12,6 +12,7 @@ export default function SystemInfo({ SystemInfo, setResult }) {
    */
   const closeResultCard = () => {
     setResult(null);
+    setAddressFound(false); // Set address to false when closing the result card
   };
   return (
     <div className="relative overflow-x-auto">
@@ -60,12 +61,8 @@ export default function SystemInfo({ SystemInfo, setResult }) {
         <tbody>
           <tr className="bg-white dark:border-gray-700">
             {/* Round lat and lon to 4 decimal places */}
-            <td className="px-6 py-4">
-              {SystemInfo.corordinates.lat.toFixed(4)}
-            </td>
-            <td className="px-6 py-4">
-              {SystemInfo.corordinates.lon.toFixed(4)}
-            </td>
+            <td className="px-6 py-4">{SystemInfo.corordinates.lat}</td>
+            <td className="px-6 py-4">{SystemInfo.corordinates.lon}</td>
             <td className="px-6 py-4">{SystemInfo.azimuthAngel}</td>
             <td className="px-6 py-4">{SystemInfo.tiltAngel}</td>
             <td className="px-6 py-4">{SystemInfo.dcSystemSize}</td>
