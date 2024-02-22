@@ -181,13 +181,15 @@ export default function Home() {
       );
       console.log("Server Request: ", formData);
       console.log("Server Response: ", res);
+      console.log("Server Status: ", res.data.status);
+      console.log("Server Data: ", res.data.solarpvdata);
 
       // Store the result in this form
       // System info: The data posted to server
       // Solar PV results: Result revied form NREL
       const systemInfoAndResult = {
         SystemInfo: formData,
-        SolarResult: "Loading...",
+        SolarResult: res.data.solarpvdata,
       };
       setResult(systemInfoAndResult);
     } catch (error) {
