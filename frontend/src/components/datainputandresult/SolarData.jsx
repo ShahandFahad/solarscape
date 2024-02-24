@@ -5,8 +5,13 @@ import Spinner from "../spinner/Spinner";
  *
  * @returns Get parameters form users and pass it to parent component for making request to server
  */
-export default function SolarData({ onSubmit, addressFound, setAddress }) {
-  const [isLoading, setIsLoading] = useState(false); // Flag for loading state
+export default function SolarData({
+  onSubmit,
+  addressFound,
+  setAddress,
+  resultLoading,
+}) {
+  // const [isLoading, setIsLoading] = useState(false); // Flag for loading state
 
   //   Solar Data with default values
   const [dcSystemSize, setDCSystemSize] = useState("4");
@@ -17,7 +22,7 @@ export default function SolarData({ onSubmit, addressFound, setAddress }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Pass data to parent: Home.jsx
-    setIsLoading(true);
+    // setIsLoading(true);
     setAddress("");
     try {
       // Submit data
@@ -34,7 +39,7 @@ export default function SolarData({ onSubmit, addressFound, setAddress }) {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
   return (
@@ -159,7 +164,7 @@ export default function SolarData({ onSubmit, addressFound, setAddress }) {
             } p-2 rounded font-bold text-`}
           >
             {/* If no laading display "Search". If loading Display spinner  */}
-            {!isLoading ? "Result" : <Spinner />}
+            {!resultLoading ? "Result" : <Spinner />}
           </button>
         </div>
       </div>
