@@ -91,6 +91,9 @@ export default function Home() {
   const [result, setResult] = useState(null); // Initialize result state
   const [addressFound, setAddressFound] = useState(false);
 
+  // For solar pv result
+  const [resultLoading, setResultLoading] = useState(false);
+
   // Provide OpenStreetMap Access
   const provider = new OpenStreetMapProvider();
   // Set notification for invalid address
@@ -169,11 +172,13 @@ export default function Home() {
 
   // Submit data to server
   const handleSubmit = async (formData) => {
+    setResultLoading(true);
+
     try {
       // Send system info and user id to the data retrievel service
       // Store the reuslts with the user id in assessment document
       // Display each user history in recent activity of user
-      formData.corordinates = { lat: newCenter[0], lon: newCenter[1] };
+      formData.coordinates = { lat: newCenter[0], lon: newCenter[1] };
       formData.user = { id: localStorage.getItem("UserID") };
       const res = await axios.post(
         "http://localhost:8003/api/v1/solar/pv-assessment",
@@ -195,6 +200,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     } finally {
+      setResultLoading(false);
     }
   };
 
@@ -307,6 +313,7 @@ export default function Home() {
             onSubmit={handleSubmit}
             addressFound={addressFound}
             setAddress={setAddress}
+            resultLoading={resultLoading}
           />
           <hr />
         </Controls>

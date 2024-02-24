@@ -61,8 +61,8 @@ export default function SystemInfo({ SystemInfo, setResult, setAddressFound }) {
         <tbody>
           <tr className="bg-white dark:border-gray-700">
             {/* Round lat and lon to 4 decimal places */}
-            <td className="px-6 py-4">{SystemInfo.corordinates.lat}</td>
-            <td className="px-6 py-4">{SystemInfo.corordinates.lon}</td>
+            <td className="px-6 py-4">{SystemInfo.coordinates.lat}</td>
+            <td className="px-6 py-4">{SystemInfo.coordinates.lon}</td>
             <td className="px-6 py-4">{SystemInfo.azimuthAngel}</td>
             <td className="px-6 py-4">{SystemInfo.tiltAngel}</td>
             <td className="px-6 py-4">{SystemInfo.dcSystemSize}</td>
