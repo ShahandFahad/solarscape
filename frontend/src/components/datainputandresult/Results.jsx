@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import SystemInfo from "./SystemInfo";
-import SimpleBarChart from "../charts/SimpleBarChart";
 import { MonthlyPlotting } from "./MonthlyPlotting";
+import DataTable from "./DataTable";
 
 // default width: 600px
 const ResultPloting = styled.div`
@@ -38,104 +38,10 @@ export default function Results({ result, setResult, setAddressFound }) {
           <h1 className="text-lg text-gray-600 font-bold mb-2">
             Result: Solar Photovoltic Power
           </h1>
-          {/* <p>{result.SolarResult}</p> */}
-          {console.log("RESULT: ", result.SolarResult.outputs.ac_annual)}
         </div>
-        {/*  */}
 
-        <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-200 ">
-              <tr>
-                <th scope="col" className="text-lg px-6 py-3">
-                  Field
-                </th>
-                <th scope="col" className="text-lg px-6 py-3">
-                  Value
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="text-lg text-gray-900 bg-white border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium whitespace-nowrap"
-                >
-                  AC Annual
-                </th>
-                <td className="px-6 py-4">
-                  {result.SolarResult.outputs.ac_annual.toFixed(4)}
-                </td>
-              </tr>
-              <tr className="text-lg text-gray-900 bg-white border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium whitespace-nowrap"
-                >
-                  Solar Radiation Annual
-                </th>
-                <td className="px-6 py-4">
-                  {result.SolarResult.outputs.solrad_annual.toFixed(4)}
-                </td>
-              </tr>
-              <tr className="text-lg bg-white text-gray-900 border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Capacity Factor
-                </th>
-                <td className="px-6 py-4">
-                  {result.SolarResult.outputs.capacity_factor.toFixed(4)}
-                </td>
-              </tr>
-              {/* Extra Calculation */}
-              <tr className="text-lg bg-white text-gray-900 border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Mean
-                </th>
-                <td className="px-6 py-4">Pending...</td>
-              </tr>
-              <tr className="text-lg bg-white text-gray-900 border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Median
-                </th>
-                <td className="px-6 py-4">Pending...</td>
-              </tr>
-              <tr className="text-lg bg-white text-gray-900 border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Standard Deviation
-                </th>
-                <td className="px-6 py-4">Pending...</td>
-              </tr>
-              <tr className="text-lg bg-white text-gray-900 border-b">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Station
-                </th>
-                <td className="px-6 py-4">
-                  <img
-                    height={30}
-                    width={30}
-                    src={result.SolarResult.station_info.flagIcon}
-                    alt=""
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {/* Diaplay Table of Data recieved forom server */}
+        <DataTable result={result} />
 
         {/* CHARTS */}
 
