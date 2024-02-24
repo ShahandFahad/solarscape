@@ -117,6 +117,22 @@ export default function Results({ result, setResult, setAddressFound }) {
                 </th>
                 <td className="px-6 py-4">Pending...</td>
               </tr>
+              <tr className="text-lg bg-white text-gray-900 border-b">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                >
+                  Station
+                </th>
+                <td className="px-6 py-4">
+                  <img
+                    height={30}
+                    width={30}
+                    src={result.SolarResult.station_info.flagIcon}
+                    alt=""
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
