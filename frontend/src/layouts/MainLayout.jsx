@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 // import Login from "../components/Auth/Login";
 // import Signup from "../components/Auth/Signup";
 import Contact from "../pages/Contact";
+import Profile from "../pages/Profile";
+import About from "../pages/About";
 
 // Setting basic routes
 export default function MainLayout() {
@@ -19,7 +21,9 @@ export default function MainLayout() {
           {/* Moved these routes to APP.js */}
           {/* <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} /> */}
-          <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/contact" element={<Contact />} /> */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </>
