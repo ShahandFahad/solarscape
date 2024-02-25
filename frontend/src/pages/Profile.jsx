@@ -9,9 +9,9 @@ import {
   validateConfirmPassword,
 } from "../components/Auth/validate";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Swal from "sweetalert2";
 /**
  * Steps:
  *  1) Validate Input Fields
@@ -22,31 +22,11 @@ import "react-toastify/dist/ReactToastify.css";
  *  5) When user already exists: Display red toast: User is already present
  *  6) Incase of any other error: Display red toast: Register unsuccessful
  */
-import styled from "styled-components";
 import axios from "axios";
 import { useAuth } from "../provider/authProvider";
 import PersonalInfo from "../components/profile/PersonalInfo";
 import ActivityLog from "../components/profile/ActivityLog";
-// Custom loader
-const Spinner = styled.div`
-  width: 24px;
-  height: 24px;
-  border: 5px solid #fff;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+import Spinner from "../components/spinner/Spinner";
 
 export default function Profile() {
   const [email, setEmail] = useState("");
@@ -81,15 +61,32 @@ export default function Profile() {
       .get(`http://localhost:8001/api/v1/user/${currentUserID}`)
       .then((res) => {
         setCurrentUser(res.data.user);
+        // Update the input states
+        setEmail(res.data.user.email);
+        setFirstName(res.data.user.firstName);
+        setLastName(res.data.user.lastName);
       })
       .catch((err) => console.log(`User Data Not Recied: ${err.message}`));
-  }, []);
+    console.log("Testing");
+  }, [setToken]); // update data when token is updated
 
   //
+  // console.log("Current User", currentUser);
 
   // Toast for unsuccessful user registeration
   const notify = (errName) =>
-    toast.error(`Registeration Failed! ${errName}`, {
+    toast.error(`Profile not updated! ${errName}`, {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  const notifyUpdateProfile = () =>
+    toast.success(`Profile Updated`, {
       position: "top-right",
       autoClose: 2500,
       hideProgressBar: false,
@@ -153,12 +150,13 @@ export default function Profile() {
 
   /**
    *
-   * USER REGISTERATION
+   * USER Profile UPDATE:
+   * THIS is the same signup card used here. Same way of vlaidation
    *
    */
 
   // Handle signup data: Validate and send to server
-  const handleSignup = async (e) => {
+  const handleUserProfileUpdate = async (e) => {
     // Prevent the browser from reloading the page
     e.preventDefault();
     // User signup data
@@ -225,23 +223,26 @@ export default function Profile() {
       // console.log(JSON.stringify(signUpData));
       setIsLoading(true);
       try {
-        const response = await axios.put(
-          `http://localhost:8001/api/v1/user/1234`,
+        const response = await axios.patch(
+          `http://localhost:8001/api/v1/user/update-profile/${localStorage.getItem(
+            "UserID"
+          )}`,
           signUpData
         );
 
         // When user is successfully registered
         if (response.status === 201) {
-          console.log("User signed up successfully!");
+          console.log("User profile updated");
           console.log(response.data);
           setResponseData(response.data);
 
           // redirect to success page
           // Set token to local storage and naviage
           setToken(response.data.token);
-          navigate("/", { replace: true }); // load home screen client side
+          // navigate("/", { replace: true }); // load home screen client side
+          notifyUpdateProfile();
         } else {
-          console.error("Error signing up user:", response.data);
+          console.error("Error profile update:", response.data);
           // Handle API error gracefully, e.g., display user-friendly message
           // Notify user if fails
           notify(response.data.name);
@@ -258,6 +259,45 @@ export default function Profile() {
     } else {
       console.log("Fields are not validated properly");
     }
+  };
+
+  const handleDelete = () => {
+    // Using Sweet alert: https://sweetalert2.github.io/#examples
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your account has been deleted.",
+          // confirmButtonColor: "#3085d6",
+          showConfirmButton: false,
+          timer: 1500,
+          icon: "success",
+        });
+
+        // Delete user. Permanently
+        axios
+          .delete(
+            `http://localhost:8001/api/v1/user/${localStorage.getItem(
+              "UserID"
+            )}`
+          )
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
+        // User press yes
+        // Make user status: inactive on server and logout user
+        setToken();
+        localStorage.removeItem("UserID");
+        navigate("/login", { replace: true });
+      }
+    });
   };
   return (
     <div className="h-full bg-gray-200 p-8">
@@ -391,9 +431,15 @@ export default function Profile() {
             {/*  */}
 
             <hr />
+            {/* UPDATE TOAST */}
+            <ToastContainer />
+            {/*  */}
             <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
               <div className="flex items-center space-x-4 mt-2">
-                <button className="flex items-center bg-green-500 hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                <button
+                  onClick={handleUserProfileUpdate}
+                  className="flex items-center bg-green-500 hover:bg-green-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -411,7 +457,10 @@ export default function Profile() {
 
                   <span>Update</span>
                 </button>
-                <button className="flex items-center bg-red-500 hover:bg-red-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                <button
+                  onClick={handleDelete}
+                  className="flex items-center bg-red-500 hover:bg-red-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
