@@ -41,16 +41,6 @@ export default function ActivityLog() {
       .catch((error) => console.log("Recent Activity Error: ", error));
   }, []);
 
-  console.log(recentActivity);
-  recentActivity.map((item) =>
-    console.log(formatTimeAgo(Date.parse(item.createdAt)))
-  );
-
-  recentActivity.map((item) =>
-    console.log(
-      `For Lat/Lon [${item.coordinates.lat}, ${item.coordinates.lon}] Annual Solr Rad, AC, DC ${item.solarRadiationAnnual}, ${item.ACAnnual}, ${item.DCAnnual}. Capacity Factor ${item.capacityFactor}`
-    )
-  );
   return (
     <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
       <h4 className="text-xl text-gray-900 font-bold">Activity log</h4>
@@ -63,7 +53,7 @@ export default function ActivityLog() {
 
         {/* ITERATION OVER ACTIVITY: Get each recent activity one by one */}
         {recentActivity.map((activity, index) => {
-          console.log("Index: ", index);
+          // console.log("Index: ", index);
           if (!showMore && index < 3) {
             return (
               <div
@@ -120,7 +110,7 @@ export default function ActivityLog() {
             </button>
           </h1>
         )}
-        {console.log(recentActivity.length)}
+        {/* {console.log(recentActivity.length)} */}
         {/* <!-- end::Timeline item --> */}
       </div>
     </div>
