@@ -13,7 +13,7 @@ export default function Navbar() {
   const links = {
     Home: "/",
     About: "/about",
-    Contact: "/contact",
+    // Contact: "/contact",
     // "Sign up": "/signup",
     // Login: "/login",
     Logout: "/logout",
