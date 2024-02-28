@@ -19,6 +19,22 @@ router.post("/signup", authController.signup);
 // User Login
 router.post("/login", authController.login);
 
+// Special Routes
+// Store user history and Get all assessmnets
+router
+  .route("/store-assessment-history")
+  .post(userController.storeUserSolarAssessment);
+// GET assessment for each user by id
+router
+  .route("/store-assessment-history/:id")
+  .get(userController.getAllUserAssessment);
+// Delete user history by id
+// router
+//   .route("/store-assessment-history/:id")
+//   .delete(userController.?);
+
+// Update user profile via special route
+router.route("/update-profile/:id").patch(authController.updateprofile);
 // These routes are managed by SYSTEM Admin
 
 // Router setup
