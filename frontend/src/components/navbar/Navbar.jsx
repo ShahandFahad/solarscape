@@ -10,16 +10,27 @@ export default function Navbar() {
   // const navItems = ["Home", "About", "Contact", "Sign up", "Login"]; // Menu items
 
   // App links: map over this display name in lable and links in to attribute
-  const links = {
-    Home: "/",
-    About: "/about",
+  let links = {
+    Explore: "/service",
+    // About: "/about",
     // Contact: "/contact",
-    // "Sign up": "/signup",
-    // Login: "/login",
-    Logout: "/logout",
-    Profile: "/profile",
+    "Sign up": "/signup",
+    Login: "/login",
+    // Profile: "/profile",
+    // Logout: "/logout",
   }; // Menu items
-
+  if (localStorage.getItem("token") && localStorage.getItem("UserID")) {
+    links = {
+      Home: "/",
+      Explore: "/service",
+      // About: "/about",
+      // Contact: "/contact",
+      // "Sign up": "/signup",
+      // Login: "/login",
+      Profile: "/profile",
+      Logout: "/logout",
+    }; // Menu items
+  }
   // Toggle sidebar when hamburger button is clicked
   const toggleSideBar = (e) => {
     setdisplaySidebar(displaySidebar === "" ? "nav-open" : ""); // Toggle class
