@@ -56,7 +56,7 @@ export default function Contact() {
             </div>
           </div>
           <div className="pt-4 flex items-center space-x-4">
-            <button
+            {/* <button
               style={{ backgroundColor: "#f2f2f2" }}
               className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
             >
@@ -75,7 +75,7 @@ export default function Contact() {
                 ></path>
               </svg>
               Cancel
-            </button>
+            </button> */}
             <button
               style={{ background: "#f76b1c" }}
               className="flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none"
