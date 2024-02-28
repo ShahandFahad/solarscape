@@ -17,6 +17,11 @@ import MapRecenter from "../components/Map/MapRecenter";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../components/spinner/Spinner";
+import SolarData from "../components/datainputandresult/SolarData";
+import Results from "../components/datainputandresult/Results";
+import axios from "axios";
+import Corodinate from "../components/datainputandresult/Corodinate";
 
 /**
  * - Set initial home screen for user
@@ -45,26 +50,6 @@ const Controls = styled.div`
   border-radius: 10px;
 `;
 
-// Custom loader
-const Spinner = styled.div`
-  width: 24px;
-  height: 24px;
-  border: 5px solid #fff;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
 //  Used to recenter the map to new coordinates
 // const Recenter = ({ lat, lng }) => {
 //   const map = useMap();
@@ -94,15 +79,20 @@ export default function Home() {
   ]);
 
   // Pakistan's coordinates are 30.375321 latitude and 69.345116 longitude.
-  const center = [30.375321, 69.345116]; // Sets the initial center coordinates of the map.
+  const center = [30.3753, 69.3451]; // Sets the initial center coordinates of the map.
   const zoom = 4; //  Sets the initial zoom level of the map.
 
   // Set initial coordinates and zoom level, and later update it
-  const [newCenter, setNewCenter] = useState([30.375321, 69.345116]);
+  const [newCenter, setNewCenter] = useState(center);
   const [isLoading, setIsLoading] = useState(false); // Track loading state
 
   // Get user address form input and set here
   const [address, setAddress] = useState("");
+  const [result, setResult] = useState(null); // Initialize result state
+  const [addressFound, setAddressFound] = useState(false);
+
+  // For solar pv result
+  const [resultLoading, setResultLoading] = useState(false);
 
   // Provide OpenStreetMap Access
   const provider = new OpenStreetMapProvider();
@@ -127,14 +117,14 @@ export default function Home() {
     ]);
 
     // Initial Request so that data loads first for a specific location
-    provider
-      .search({ query: "Pakistan" })
-      .then(function (result) {
-        // Set new initial center
-        setNewCenter([result[0].y, result[0].x]);
-        console.log("New Center on Map load: ", newCenter);
-      })
-      .catch((error) => error.message);
+    // provider
+    //   .search({ query: "Pakistan" })
+    //   .then(function (result) {
+    //     // Set new initial center
+    //     setNewCenter([result[0].y, result[0].x]);
+    //     console.log("New Center on Map load: ", newCenter);
+    //   })
+    //   .catch((error) => error.message);
   }, []);
 
   // Setup custom marker for the map
@@ -156,14 +146,20 @@ export default function Home() {
     } else {
       console.log("Address: ", address);
       setIsLoading(true);
+      // If Result card is open then close it to avoid screen blocking
+      setResult(null);
 
       // Retrieve co-ordinates form address
       try {
         const searchResult = await provider.search({ query: address });
-        // Set new center
-        setNewCenter([searchResult[0].y, searchResult[0].x]);
-        console.log("New Center after search: ", newCenter);
+        // Set new center: Round to 4 decimal places
+        setNewCenter([
+          searchResult[0].y.toFixed(4),
+          searchResult[0].x.toFixed(4),
+        ]);
+        console.log("Address Found: New Coordinates: ", newCenter);
         setIsLoading(false);
+        setAddressFound(true);
       } catch (error) {
         console.error("Address retrieval failed:", error.message);
         // Display a user-friendly error message
@@ -171,6 +167,40 @@ export default function Home() {
       } finally {
         setIsLoading(false);
       }
+    }
+  };
+
+  // Submit data to server
+  const handleSubmit = async (formData) => {
+    setResultLoading(true);
+
+    try {
+      // Send system info and user id to the data retrievel service
+      // Store the reuslts with the user id in assessment document
+      // Display each user history in recent activity of user
+      formData.coordinates = { lat: newCenter[0], lon: newCenter[1] };
+      formData.user = { id: localStorage.getItem("UserID") };
+      const res = await axios.post(
+        "http://localhost:8003/api/v1/solar/pv-assessment",
+        formData
+      );
+      console.log("Server Request: ", formData);
+      console.log("Server Response: ", res);
+      console.log("Server Status: ", res.data.status);
+      console.log("Server Data: ", res.data.solarpvdata);
+
+      // Store the result in this form
+      // System info: The data posted to server
+      // Solar PV results: Result revied form NREL
+      const systemInfoAndResult = {
+        SystemInfo: formData,
+        SolarResult: res.data.solarpvdata,
+      };
+      setResult(systemInfoAndResult);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setResultLoading(false);
     }
   };
 
@@ -190,6 +220,7 @@ export default function Home() {
           height: "92%",
           overflow: "hidden",
         }}
+        scrollWheelZoom={false}
       >
         {/* Custom zoom control, Shifted to right bottom corner */}
         <ZoomControl position="bottomright" zoomInText="+" zoomOutText="-" />
@@ -225,17 +256,30 @@ export default function Home() {
           </LayersControl.BaseLayer>
 
           {/* Pop Up Marker: The Marker updates with the newCenter for the map */}
+
           <Marker position={[newCenter[0], newCenter[1]]} icon={locationMarker}>
             <Popup>
-              Co-Ordinates: {newCenter[0]}, {newCenter[1]}
+              Lat: {newCenter[0]}, Lon: {newCenter[1]}
               <br />
-              Address: {address}.
+              Location: {address || "Pakistan"}
             </Popup>
           </Marker>
         </LayersControl>
 
-        {/* Custom Styled Overlay Control Section. Used to Get Location or Lattitude and Logititude and Other Input parameters */}
+        {/* 
+          TODO: Convert this to smaller components
+        */}
+
+        {/* 
+          Custom Styled Overlay Control Section. Used to Get Location or Lattitude and Logititude and Other Input parameters 
+        */}
         <Controls>
+          <div className="m-4">
+            <h1 className="text-xl font-bold text-orange-500">
+              Solar Photovoltic Power (PVWatts)
+            </h1>
+          </div>
+          <hr />
           <div className="flex m-4 gap-2">
             <input
               type="text"
@@ -243,6 +287,7 @@ export default function Home() {
               className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
               value={address}
               onChange={handleChange}
+              required
             />
 
             {/* Search button */}
@@ -256,7 +301,32 @@ export default function Home() {
             </button>
             {/* <Spinner class="loader"></Spinner> */}
           </div>
+          {/* Corodinates Box */}
+          <Corodinate
+            lat={addressFound ? newCenter[0] : ""}
+            lon={addressFound ? newCenter[1] : ""}
+          />
+          <hr />
+          {/* Load Solar Data Paramters component */}
+          {/* TODO: Check for coordinates: when not diable result button */}
+          <SolarData
+            onSubmit={handleSubmit}
+            addressFound={addressFound}
+            setAddress={setAddress}
+            resultLoading={resultLoading}
+          />
+          <hr />
         </Controls>
+        {/* 
+        Pass the setResult and setAddressFound via prop drilling to SolarInfo.jsx which set result to null and setAddressFound to false and closed this Results.jsx card 
+        */}
+        {result && (
+          <Results
+            result={result}
+            setResult={setResult}
+            setAddressFound={setAddressFound}
+          />
+        )}
         <ToastContainer />
       </MapContainer>
     </div>

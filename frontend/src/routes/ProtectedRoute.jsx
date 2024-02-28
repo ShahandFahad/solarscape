@@ -20,8 +20,8 @@ export const ProtectedRoute = () => {
   // Check if the user is authenticated
   if (!token) {
     console.log("Protected Routes: Has Token-> NO: Requires Login", token);
-    // If not authenticated, redirect to the login page
-    return <Navigate to="login" />;
+    // If not authenticated, redirect to the public service page
+    return <Navigate to="service" />;
   }
   console.log("Protected Routes: Has Token-> YES: Allow User", token);
   // If authenticated, render the child routes

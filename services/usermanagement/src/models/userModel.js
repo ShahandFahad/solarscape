@@ -54,8 +54,8 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
-    select: false, // automatically hides the field
+    default: Date.now,
+    select: false,
   },
 });
 
@@ -73,6 +73,16 @@ const userSchema = new mongoose.Schema({
  * Async function to stop blocking event loop
  */
 
+// This middleware will run for profile update
+userSchema.pre("findOneAndUpdate", async function (next) {
+  // Get the updated fields and salt password form it
+  let data = this.getUpdate();
+  const salt = await bcrypt.genSalt();
+  data.password = await bcrypt.hash(data.password, salt);
+
+  // Call next middleware
+  next();
+});
 userSchema.pre("save", async function (next) {
   // If password is not modified then return
   if (!this.isModified("password")) return next();

@@ -6,6 +6,8 @@ import Signup from "../components/Auth/Signup";
 import Admin from "../admin/Admin";
 import MainLayout from "../layouts/MainLayout";
 import Logout from "../components/Auth/Logout";
+import About from "../pages/About";
+import PublicLayout from "../layouts/PublicLayout";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -15,20 +17,11 @@ const Routes = () => {
   const routesForPublic = [
     {
       path: "/service",
-      element: (
-        <div>
-          Service Page: Available to General Public, Requires no login or
-          signup.
-        </div>
-      ),
+      element: <PublicLayout />,
     },
     {
       path: "/about-us",
-      element: (
-        <div>
-          About Us: Available to General Public, Requires no login or signup.
-        </div>
-      ),
+      element: <About />,
     },
   ];
 

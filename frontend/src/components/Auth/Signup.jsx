@@ -224,8 +224,16 @@ export default function Signup() {
 
           // redirect to success page
           // Set token to local storage and naviage
+          // setToken(response.data.token);
+          // navigate("/", { replace: true }); // load home screen client side
+          console.log("User is Signed UP!: ", response.status);
+          console.log(response.data);
+          console.log(response.data.data.user._id);
+          localStorage.setItem("UserID", response.data.data.user._id);
+          // Store user login token
           setToken(response.data.token);
-          navigate("/", { replace: true }); // load home screen client side
+          // Navigate user to home page
+          navigate("/", { replace: true });
         } else {
           console.error("Error signing up user:", response.data);
           // Handle API error gracefully, e.g., display user-friendly message

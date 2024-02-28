@@ -41,6 +41,7 @@ const Logout = () => {
   //   Just remove the token from local storage and navigate back to login page
   const handleLogout = () => {
     setToken();
+    localStorage.removeItem("UserID");
     navigate("/login", { replace: true });
   };
 
