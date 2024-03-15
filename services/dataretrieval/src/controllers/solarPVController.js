@@ -25,7 +25,7 @@ NREL API:
   coordinates: { lat: 30.3308401, lon: 71.247499 },
   user: { id: '65c911da1cb2d3b60af8fb77' }
 */
-const solarpvdata = {
+const solarpvdatastatic = {
   inputs: {
     lat: "30.3308401",
     lon: "71.247499",
@@ -136,20 +136,22 @@ https://developer.nrel.gov/api/pvwatts/v8.json?api_key=DEMO_KEY&lat=30&lon=69&az
     //   )}&soiling=12|4|45|23|9|99|67|12.54|54|9|0|7.6&albedo=0.3&bifaciality=0.7`
     // );
     // console.log("THE API:");
-    // const nrelpv = await axios.get(
-    //   `https://developer.nrel.gov/api/pvwatts/v8.json?api_key=DEMO_KEY&lat=${
-    //     coordinates.lat
-    //   }&lon=${coordinates.lon}&azimuth=${parseFloat(
-    //     azimuthAngel
-    //   )}&system_capacity=${parseFloat(dcSystemSize)}&losses=${parseFloat(
-    //     systemLoss
-    //   )}&array_type=1&module_type=0&gcr=0.4&dc_ac_ratio=1.2&inv_eff=96.0&radius=0&dataset=nsrdb&tilt=${parseFloat(
-    //     tiltAngel
-    //   )}&soiling=12|4|45|23|9|99|67|12.54|54|9|0|7.6&albedo=0.3&bifaciality=0.7`
-    // );
+
+    // Get the API KEY form .env file and load here
+    const nrelpv = await axios.get(
+      `https://developer.nrel.gov/api/pvwatts/v8.json?api_key=${
+        process.env.DEV_NREL_API_KEY
+      }&lat=${coordinates.lat}&lon=${coordinates.lon}&azimuth=${parseFloat(
+        azimuthAngel
+      )}&system_capacity=${parseFloat(dcSystemSize)}&losses=${parseFloat(
+        systemLoss
+      )}&array_type=1&module_type=0&gcr=0.4&dc_ac_ratio=1.2&inv_eff=96.0&radius=0&dataset=nsrdb&tilt=${parseFloat(
+        tiltAngel
+      )}&soiling=12|4|45|23|9|99|67|12.54|54|9|0|7.6&albedo=0.3&bifaciality=0.7`
+    );
     // console.log("NREL: ");
     // // console.log(nrelpv.data);
-    // const solarpvdata = nrelpv.data;
+    const solarpvdata = nrelpv.data;
 
     // Pass country name dynamically
     const flagIcon = flagIconLink(solarpvdata.station_info.country);
