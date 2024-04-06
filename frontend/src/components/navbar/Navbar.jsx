@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/logo.png";
 import Sidebar from "./Sidebar";
@@ -9,28 +9,28 @@ export default function Navbar() {
   // convert this to object: diplay key in name and link in href
   // const navItems = ["Home", "About", "Contact", "Sign up", "Login"]; // Menu items
 
-  // App links: map over this display name in lable and links in to attribute
-  let links = {
+  // Initial Sate of the Nav bar is set to this
+  const [links, setLinks] = useState({
     Explore: "/service",
-    // About: "/about",
-    // Contact: "/contact",
     "Sign up": "/signup",
     Login: "/login",
-    // Profile: "/profile",
-    // Logout: "/logout",
-  }; // Menu items
-  if (localStorage.getItem("token") && localStorage.getItem("UserID")) {
-    links = {
-      Home: "/",
-      Explore: "/service",
-      // About: "/about",
-      // Contact: "/contact",
-      // "Sign up": "/signup",
-      // Login: "/login",
-      Profile: "/profile",
-      Logout: "/logout",
-    }; // Menu items
-  }
+  });
+
+  // Update state on Login, When User is logged in, Changed the naviagation to this
+  useEffect(() => {
+    if (localStorage.getItem("token") && localStorage.getItem("UserID")) {
+      setLinks({
+        Home: "/",
+        Explore: "/service",
+        // About: "/about",
+        // Contact: "/contact",
+        // "Sign up": "/signup",
+        // Login: "/login",
+        Profile: "/profile",
+        Logout: "/logout",
+      }); // Menu items
+    }
+  }, []);
   // Toggle sidebar when hamburger button is clicked
   const toggleSideBar = (e) => {
     setdisplaySidebar(displaySidebar === "" ? "nav-open" : ""); // Toggle class
