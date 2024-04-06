@@ -18,8 +18,14 @@ export default function Navbar() {
 
   // Update state on Login, When User is logged in, Changed the naviagation to this
   useEffect(() => {
-    if (localStorage.getItem("token") && localStorage.getItem("UserID")) {
+    // Incase if user is admin
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("UserID") &&
+      localStorage.getItem("UserRole") === "admin"
+    ) {
       setLinks({
+        "Admin Panel": "/admin",
         Home: "/",
         Explore: "/service",
         // About: "/about",
@@ -29,6 +35,16 @@ export default function Navbar() {
         Profile: "/profile",
         Logout: "/logout",
       }); // Menu items
+    } else if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("UserID")
+    ) {
+      setLinks({
+        Home: "/",
+        Explore: "/service",
+        Profile: "/profile",
+        Logout: "/logout",
+      });
     }
   }, []);
   // Toggle sidebar when hamburger button is clicked
