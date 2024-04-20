@@ -12,7 +12,7 @@ jobs: # list of things to do
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [dataretrieval, solarcalculation, usermanagement]
+        service: [dataretrieval, usermanagement]
 
     steps: # list of steps
       - name: Checkout Repository
