@@ -113,6 +113,12 @@ export default function Login() {
           console.log("User is logged In!: ", response.status);
           console.log(response.data);
           console.log(response.data.data.user._id);
+          // If user role is admin then store it to local storage
+          if (response.data.data.user.role === "admin") {
+            console.log(response.data.data.user.role);
+            localStorage.setItem("UserRole", response.data.data.user.role);
+          }
+          // Store User ID in local Storage
           localStorage.setItem("UserID", response.data.data.user._id);
           // Store user login token
           setToken(response.data.token);

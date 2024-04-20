@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -42,6 +41,9 @@ const Logout = () => {
   const handleLogout = () => {
     setToken();
     localStorage.removeItem("UserID");
+    if (localStorage.getItem("UserRole")) {
+      localStorage.removeItem("UserRole");
+    }
     navigate("/login", { replace: true });
   };
 

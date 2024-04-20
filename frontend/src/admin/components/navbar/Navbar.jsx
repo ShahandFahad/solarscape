@@ -15,6 +15,7 @@ export default function Navbar() {
     Users: "users",
     Analytics: "analytics",
     Settings: "settings",
+    Logout: "/logout",
     // FAQs: "/admin",
   }; // Menu items
 

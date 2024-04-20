@@ -2,8 +2,13 @@ const UserAssessment = require("../models/assessmentModel");
 const User = require("../models/userModel");
 
 // GET: Get all users from DB
-exports.getAllUsers = (req, res) => {
-  res.status(200).json({ status: "Success", message: "Get All Users" });
+exports.getAllUsers = async (req, res) => {
+  try {
+    const data = await User.find().select("+active").select("+createdAt");
+    res.status(200).json({ status: "Success", data });
+  } catch (error) {
+    res.status(200).json({ status: "Success", error });
+  }
 };
 
 // POST: Post | Add new user to DB
@@ -25,9 +30,10 @@ exports.getUser = async (req, res) => {
 };
 
 // UPDATE: Update user details
-exports.updateUser = (req, res) => {
-  console.log(req.body);
-  res.status(200).json({ status: "Success", message: "User Updated" });
+exports.updateUser = async (req, res) => {
+  const { id, password } = req.body;
+  const updatedUser = await User.findByIdAndUpdate(id, { password });
+  res.status(200).json({ status: "Success", message: "User Password Updated" });
 };
 
 // DELETE: Delete user

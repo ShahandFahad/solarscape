@@ -8,12 +8,11 @@ import MainLayout from "../layouts/MainLayout";
 import Logout from "../components/Auth/Logout";
 import About from "../pages/About";
 import PublicLayout from "../layouts/PublicLayout";
-
+import { Navigate } from "react-router-dom";
 const Routes = () => {
   const { token } = useAuth();
 
   // Define public routes accessible to all users
-  //  TODO: Configure these pages for general public.
   const routesForPublic = [
     {
       path: "/service",
@@ -24,10 +23,6 @@ const Routes = () => {
       element: <About />,
     },
   ];
-
-  //  TODO: Implement a Differnt Strategy for ADMIN.
-  //  TODO: When Want to access. Ask for login. Check user role in backend.
-  //  TODO: IF role is admin then allow, to restricted routes. ELSE Donot login
 
   // Define routes accessible only to authenticated users
   const routesForAuthenticatedOnly = [
@@ -44,8 +39,14 @@ const Routes = () => {
           element: <MainLayout />,
         },
         {
+          /** If Use is admin then render these routes else navigate back to home page */
           path: "/admin/*",
-          element: <Admin />,
+          element:
+            localStorage.getItem("UserRole") === "admin" ? (
+              <Admin />
+            ) : (
+              <Navigate to="/" />
+            ),
         },
         {
           path: "/logout",
