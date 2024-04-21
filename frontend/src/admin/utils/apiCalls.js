@@ -40,3 +40,17 @@ export const DELETE_USER_BY_ID = async (userID) => {
     console.error(`User Deletion Failed (ADMIN): ${error}`);
   }
 };
+
+// Register New Admin
+export const REGISTER_NEW_ADMIN = async (newAdmin) => {
+  console.log(newAdmin);
+  try {
+    const response = await axios.post(
+      `${userManagementBaseUrl}/api/v1/user`,
+      newAdmin
+    );
+    return response;
+  } catch (error) {
+    console.error(`New Admin Regiter Failed (ADMIN): ${error}`);
+  }
+};
