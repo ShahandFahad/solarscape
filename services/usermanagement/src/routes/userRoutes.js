@@ -27,26 +27,51 @@ router
 // GET assessment for each user by id
 router
   .route("/store-assessment-history/:id")
-  .get(userController.getAllUserAssessment);
+  .get(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    userController.getAllUserAssessment
+  );
 // Delete user history by id
 // router
 //   .route("/store-assessment-history/:id")
 //   .delete(userController.?);
 
 // Update user profile via special route
-router.route("/update-profile/:id").patch(authController.updateprofile);
+router
+  .route("/update-profile/:id")
+  .patch(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    authController.updateprofile
+  );
 // These routes are managed by SYSTEM Admin
 
 // Router setup
 router
   .route("/")
-  .get(authController.protect, userController.getAllUsers)
-  .post(userController.createUser);
+  .get(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    authController.restrictTo("admin") /* Restrict operation to system admin*/,
+    userController.getAllUsers
+  )
+  .post(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    authController.restrictTo("admin") /* Restrict operation to system admin*/,
+    userController.createNewAdmin
+  );
 
 router
   .route("/:id")
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    userController.getUser
+  )
+  .patch(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    userController.updateUser
+  )
+  .delete(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    userController.deleteUser
+  );
 
 module.exports = router;

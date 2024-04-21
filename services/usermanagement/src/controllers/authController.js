@@ -210,3 +210,35 @@ exports.updateprofile = catchAsync(async (req, res, next) => {
   // After Successful signup, Send jwt token along with the response
   createTokenAndResponse(newUser, 201, res);
 });
+
+// Using ES6 way of passing arbitry number of roles to this warpper function
+exports.restrictTo = (...roles) => {
+  // Return a middle ware function from this
+  return (req, res, next) => {
+    // This middleware function is now able to access those parameters (roles)
+    // roles=["admin",]. And Public user has role as  "user"
+    /**
+     * As the protect middleware function runs before this
+     * Which store currentUser before calling next middleware
+     * So, get the currentUser from that and check it's role
+     * Based on role decide does the user has access to the resource or not.
+     */
+    // admin is passed as role: The thorugh includes, Check
+    // if admin role is present or not:
+    // If not present: Do not grant access
+    // If roles (admin) is present then grant access
+
+    //* req.user is comming from the protect middleware after successfull login
+
+    if (!roles.includes(req.user.role)) {
+      console.log(roles);
+      console.log(req.user.role);
+      return next(
+        new AppError("You don't have permission to perform this action", 403)
+      ); // 403 means forbidden
+    }
+
+    // If role is included then pass to the next middleware
+    next();
+  };
+};
