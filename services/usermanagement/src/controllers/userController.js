@@ -12,8 +12,30 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // POST: Post | Add new user to DB
-exports.createUser = (req, res) => {
-  res.status(200).json({ status: "Success", message: "New User Added" });
+exports.createNewAdmin = async (req, res) => {
+  try {
+    // Register New Admin Via This route.
+    const data = await User.create({
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password, // Encrypt password before saving
+      confirmPassword: req.body.confirmPassword,
+      role: "admin",
+    });
+    // Response
+    res.status(200).json({
+      status: "Success",
+      message: "New Admin Registered",
+      data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Failed",
+      message: "Admin Register Failed",
+      error,
+    });
+  }
 };
 
 // GET: Get user by ID
