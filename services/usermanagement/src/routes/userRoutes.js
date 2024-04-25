@@ -74,4 +74,13 @@ router
     userController.deleteUser
   );
 
+// Get user Stats Via Special route
+router
+  .route("/dashboard-stats/users-timeline")
+  .get(
+    authController.protect /* (middleware) First protect route: Check login*/,
+    authController.restrictTo("admin") /* Restrict operation to system admin*/,
+    userController.userTimeLineStats
+  );
+
 module.exports = router;

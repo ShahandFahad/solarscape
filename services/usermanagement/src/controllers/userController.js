@@ -1,13 +1,53 @@
 const UserAssessment = require("../models/assessmentModel");
 const User = require("../models/userModel");
-
+const getMonthName = require("../utils/monthName");
 // GET: Get all users from DB
 exports.getAllUsers = async (req, res) => {
   try {
     const data = await User.find().select("+active").select("+createdAt");
+
+    /**
+     * {
+        $group: {
+          _id: { $month: "$createdAt" }, // Extract month from createdAt field
+          count: { $sum: 1 }, // Count the number of users in each group
+        },
+      },
+     */
+    // Test Results
+    const test = await User.aggregate([
+      {
+        /**
+         * This Section Extract Month from 'createdAt' Field and Assign it to the id.
+         *  And Count the number of documents for that month
+         * */
+        $group: {
+          _id: { $month: "$createdAt" }, // Extract month from createdAt field
+          count: { $sum: 1 }, // Count the number of users in each group
+        },
+      },
+      {
+        /**
+         *  This section Assign the _id variable declared eralier to this.
+         *  And Count the Month number
+         */
+        $project: {
+          month: "$_id", // Rename _id to month
+          count: 1, // Include count field
+        },
+      },
+      {
+        /** Sort In Ascending Order */
+        $sort: {
+          month: 1, // Sort by month ascending
+        },
+      },
+    ]);
+    console.log("TEST: ", test);
+
     res.status(200).json({ status: "Success", data });
   } catch (error) {
-    res.status(200).json({ status: "Success", error });
+    res.status(400).json({ status: "Failed", error });
   }
 };
 
@@ -137,6 +177,49 @@ exports.getAllUserAssessment = async (req, res) => {
       results: allAssessments.length,
       allAssessments,
     });
+  } catch (error) {
+    res.status(400).json({ status: "Failed", error });
+  }
+};
+
+// Return Yearly Stats for each month
+// Returns Stats for Number of users registered each month
+exports.userTimeLineStats = async (req, res) => {
+  try {
+    let data = await User.aggregate([
+      {
+        /**
+         * This Section Extract Month from 'createdAt' Field and Assign it to the id.
+         *  And Count the number of documents for that month
+         * */
+        $group: {
+          _id: { $month: "$createdAt" }, // Extract month from createdAt field
+          count: { $sum: 1 }, // Count the number of users in each group
+        },
+      },
+      {
+        /**
+         *  This section Assign the _id variable declared eralier to this.
+         *  And Count the Month number
+         */
+        $project: {
+          month: "$_id", // Rename _id to month
+          count: 1, // Include count field
+        },
+      },
+      {
+        /** Sort In Ascending Order */
+        $sort: {
+          month: 1, // Sort by month ascending
+        },
+      },
+    ]);
+
+    // Replace numeric Moth by Name via Utility function
+    data.map((result) => (result.month = getMonthName(result.month)));
+
+    // Response
+    res.status(200).json({ status: "Success", data });
   } catch (error) {
     res.status(400).json({ status: "Failed", error });
   }
