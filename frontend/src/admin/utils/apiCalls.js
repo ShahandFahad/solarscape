@@ -40,3 +40,30 @@ export const DELETE_USER_BY_ID = async (userID) => {
     console.error(`User Deletion Failed (ADMIN): ${error}`);
   }
 };
+
+// Register New Admin
+export const REGISTER_NEW_ADMIN = async (newAdmin) => {
+  console.log(newAdmin);
+  try {
+    const response = await axios.post(
+      `${userManagementBaseUrl}/api/v1/user`,
+      newAdmin
+    );
+    return response;
+  } catch (error) {
+    console.error(`New Admin Regiter Failed (ADMIN): ${error}`);
+  }
+};
+
+// Get User Register Timeline Stats
+export const GET_USER_TIMELINE = async () => {
+  try {
+    const response = await axios.get(
+      `${userManagementBaseUrl}/api/v1/user/dashboard-stats/users-timeline`
+    );
+    return response.data; // Return only the data part of the response
+  } catch (error) {
+    console.error("USER TIMELINE ERROR: ", error); // Log the error
+    throw error; // Rethrow the error so it can be caught by the caller
+  }
+};

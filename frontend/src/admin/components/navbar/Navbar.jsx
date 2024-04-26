@@ -13,7 +13,7 @@ export default function Navbar() {
   const links = {
     Dashboard: "/admin",
     Users: "users",
-    Analytics: "analytics",
+    // Analytics: "analytics",
     Settings: "settings",
     Logout: "/logout",
     // FAQs: "/admin",
