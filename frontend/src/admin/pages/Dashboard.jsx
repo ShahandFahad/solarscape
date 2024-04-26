@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import TimeLineChart from "../components/dashboardcomp/TimeLineChart";
 import StatCard from "../components/dashboardcomp/StatCard";
-import { GET_ALL_USERS } from "../utils/apiCalls";
+import { GET_ALL_USERS, GET_USER_TIMELINE } from "../utils/apiCalls";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
+import SimpleBarChart from "../components/dashboardcomp/BarChart";
 
 // Stat Icons
 const SidebarItems = {
@@ -66,11 +66,12 @@ export default function Dashboard() {
   const [totalUsersCount, setTotalUserCount] = useState(0);
   const [totalActiveCount, setTotalActiveCount] = useState(0);
   const [totalInActiveCount, setTotalInActiveCount] = useState(0);
+  const [userTimelineData, setUserTimelineData] = useState(null);
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
-  // Fetch All Users
   useEffect(() => {
+    // Fetch All Users
     GET_ALL_USERS()
       .then((response) => {
         console.log(response);
@@ -84,6 +85,21 @@ export default function Dashboard() {
       .catch((error) => {
         console.log(error);
       });
+
+    // Get User Timeline
+    const fetchData = async () => {
+      try {
+        const userTimeline = await GET_USER_TIMELINE();
+        console.log(userTimeline);
+        // Process userTimeline data here
+        setUserTimelineData(userTimeline.data);
+      } catch (error) {
+        console.error(error);
+        // Handle error, if needed
+      }
+    };
+
+    fetchData(); // Call the fetchData function immediately
   }, []);
 
   // When User are Fetched Perform these operations
@@ -134,7 +150,11 @@ export default function Dashboard() {
         <div className="bg-white rounded-lg mt-10">
           <h4 className="text-xl text-gray-900 font-bold">User Timeline</h4>
           <div className="mt-4 px-6 py-6 bg-gray-50 border border-gray-300 rounded-lg shadow-xl">
-            <TimeLineChart />
+            {userTimelineData !== null ? (
+              <SimpleBarChart userTimelineData={userTimelineData} />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
