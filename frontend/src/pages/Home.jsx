@@ -199,6 +199,7 @@ export default function Home() {
       setResult(systemInfoAndResult);
     } catch (error) {
       console.log(error);
+      alert("Could not find any weather stations within the 2,000 mile limit.");
     } finally {
       setResultLoading(false);
     }
