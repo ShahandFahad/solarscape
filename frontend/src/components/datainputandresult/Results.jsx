@@ -6,6 +6,7 @@ import SystemInfo from "./SystemInfo";
 import DataTable from "./DataTable";
 // import { PieChartPlotting } from "./PieChartPlotting";
 import Accordion from "../accordion/Accordion";
+import { CSVLink } from "react-csv";
 
 // default width: 600px
 const ResultPloting = styled.div`
@@ -24,7 +25,21 @@ const ResultPloting = styled.div`
 `;
 
 export default function Results({ result, setResult, setAddressFound }) {
-  // console.log("Result CARD: ", result, typeof result);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   // System INFO:
   return (
     // if no result the figure out the loading screen for it
@@ -137,20 +152,55 @@ export default function Results({ result, setResult, setAddressFound }) {
 
         <Accordion plottingData={result.SolarResult} />
 
-        {/*  */}
         {/* Buttons */}
         <div className="flex justify-end gap-4 border-t mt-4 pt-4">
-          {/* TODO: UPDATE THIS BUTTON. WHEN CORDINATES ARE AVAILABLE MAKE IT ENABLE */}
-          <button
-            type="submit"
+          {/* Format and Download the Data */}
+          <CSVLink
+            data={[
+              ["Solar Radiation Monthly"],
+              months,
+              result.SolarResult.outputs.solrad_monthly,
+              [""],
+              [""],
+
+              ["Plane of Array Irridaiance Montlhly"],
+              months,
+              result.SolarResult.outputs.poa_monthly,
+              [""],
+              [""],
+              ["AC Monthly"],
+
+              months,
+              result.SolarResult.outputs.ac_monthly,
+              [""],
+              [""],
+              ["DC Monthly"],
+
+              months,
+              result.SolarResult.outputs.dc_monthly,
+              [""],
+              [""],
+              ["Mean Data"],
+              [
+                "SR Mean",
+                result.SolarResult.data_stats.solrad_mean,
+                "POA Mean",
+                result.SolarResult.data_stats.poa_mean,
+                "AC Mean",
+                result.SolarResult.data_stats.ac_mean,
+                "DC Mean",
+                result.SolarResult.data_stats.dc_mean,
+              ],
+            ]}
             style={{ height: 36.4, width: "auto" }}
-            // onClick={handleClick}
             className="bg-green-500 p-2 rounded text-white font-bold text-"
+            target="_blank"
+            filename={`SolarData-${Date.now()}`}
           >
-            {/* If no laading display "Search". If loading Display spinner  */}
-            {/* {!isLoading ? "Result" : <Spinner />} */}
-            Download as CSV
-          </button>
+            <span className="text-white">Download as CSV</span>
+          </CSVLink>
+
+          {/* Go to Google Earth Engine APP */}
           <button
             type="submit"
             style={{ height: 36.4, width: "auto" }}
