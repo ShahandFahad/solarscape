@@ -209,7 +209,12 @@ export default function Results({ result, setResult, setAddressFound }) {
           >
             {/* If no laading display "Search". If loading Display spinner  */}
             {/* {!isLoading ? "Result" : <Spinner />} */}
-            Advance GEE
+            <a
+              target="blank"
+              href="https://ee-solarscape.projects.earthengine.app/view/solarscapeinsight"
+            >
+              <span className="text-white">Insights</span>
+            </a>
           </button>
         </div>
       </ResultPloting>
