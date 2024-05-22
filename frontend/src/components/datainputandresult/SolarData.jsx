@@ -47,10 +47,10 @@ export default function SolarData({
       <div className="m-4 flex flex-col gap-4">
         {/* DC System Size */}
         <div>
-          <h1 className="text-gray-900 text-l">DC System Size(KW)</h1>
+          <h1 className="text-gray-900 text-l hidden">DC System Size(KW)</h1>
           <input
             name="dcsystemsize"
-            type="number"
+            type="hidden"
             placeholder=""
             min={4}
             value={dcSystemSize}
@@ -60,10 +60,10 @@ export default function SolarData({
         </div>
         {/* System Loss */}
         <div>
-          <h1 className="text-gray-900 text-l">System Loss(%)</h1>
+          <h1 className="text-gray-900 text-l hidden">System Loss(%)</h1>
           <input
             name="systemloss"
-            type="number"
+            type="hidden"
             placeholder=""
             step="any"
             min={10}
@@ -72,6 +72,7 @@ export default function SolarData({
             className="w-full flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
           />
         </div>
+        <hr />
         {/* Tilt in Degree */}
         <div>
           <h1 className="text-gray-900 text-l">Tilt(Deg)</h1>
