@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
+import { userSignUp } from "../../service/api";
 // Custom loader
 const Spinner = styled.div`
   width: 24px;
@@ -211,10 +212,11 @@ export default function Signup() {
       // console.log(JSON.stringify(signUpData));
       setIsLoading(true);
       try {
-        const response = await axios.post(
-          `http://localhost:8001/api/v1/user/signup`,
-          signUpData
-        );
+        // const response = await axios.post(
+        //   `http://localhost:8001/api/v1/user/signup`,
+        //   signUpData
+        // );
+        const response = await userSignUp(signUpData);
 
         // When user is successfully registered
         if (response.status === 201) {
@@ -374,7 +376,8 @@ export default function Signup() {
                 </div>
               </div>
               <div className="pt-4 flex items-center space-x-4 mb-4">
-                <button
+                <Link
+                  to="/service"
                   style={{ backgroundColor: "#f2f2f2" }}
                   className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
                 >
@@ -393,7 +396,7 @@ export default function Signup() {
                     ></path>
                   </svg>
                   Cancel
-                </button>
+                </Link>
                 <button
                   style={{ background: "#f76b1c" }}
                   className="flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none"
