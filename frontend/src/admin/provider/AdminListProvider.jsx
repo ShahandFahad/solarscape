@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
-import { GET_ALL_USERS } from "../utils/apiCalls";
+import { GET_ALL_USERS } from "../service/apiCalls";
 import { AdminListContext } from "../context/Context";
 
 export default function AdminListProvider({ children }) {

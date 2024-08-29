@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../../provider/authProvider";
-import { GET_ALL_USERS } from "../utils/apiCalls";
+import { GET_ALL_USERS } from "../service/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { UserListContext } from "../context/Context";
 

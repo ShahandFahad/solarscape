@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StatCard from "../components/dashboardcomp/StatCard";
-import { GET_ALL_USERS, GET_USER_TIMELINE } from "../utils/apiCalls";
+import { GET_ALL_USERS, GET_USER_TIMELINE } from "../service/apiCalls";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
 import SimpleBarChart from "../components/dashboardcomp/BarChart";

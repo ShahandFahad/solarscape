@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { validatePassword } from "../../../components/Auth/validate";
-import { UPDATE_USER_PASSWORD_BY_ID } from "../../utils/apiCalls";
+import { UPDATE_USER_PASSWORD_BY_ID } from "../../service/apiCalls";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
