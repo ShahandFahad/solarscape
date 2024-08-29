@@ -135,3 +135,15 @@ export const sendUserFeedback = async (
     return error;
   }
 };
+
+// Fetch recent activity
+export const getRecentActivity = async (id) => {
+  try {
+    const response = await AxiosInstance.get(
+      `/api/v1/user/store-assessment-history/${id}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
