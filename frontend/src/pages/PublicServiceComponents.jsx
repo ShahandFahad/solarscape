@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "../components/navbar/Navbar";
-import PublicFooter from "../components/footer/PublicFooter";
 import Banner from "../components/publicservice/Banner";
 import HowToUse from "../components/publicservice/HowToUse";
 import SystemInfoDesc from "../components/publicservice/SystemInfoDesc";
