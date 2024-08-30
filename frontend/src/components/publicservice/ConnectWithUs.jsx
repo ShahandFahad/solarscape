@@ -25,9 +25,13 @@ export default function ConnectWithUs() {
         {/*  */}
         <div className="w-full flex flex-col 2xl:w-2/4">
           <div className="flex-1 bg-white p-8">
-            <div class="flex-1 bg-gray-50 rounded-lg shadow-xl p-8">
-              <p class="mt-2 text-gray-700 flex justify-center">
-                <img alt="" src={ContactUS} class="object-cover h-auto w-100" />
+            <div className="flex-1 bg-gray-50 rounded-lg shadow-xl p-8">
+              <p className="mt-2 text-gray-700 flex justify-center">
+                <img
+                  alt=""
+                  src={ContactUS}
+                  className="object-cover h-auto w-100"
+                />
               </p>
             </div>
           </div>
@@ -35,7 +39,7 @@ export default function ConnectWithUs() {
         {/*  */}
         <div className="w-full flex flex-col 2xl:w-2/4">
           <div className="flex-1 bg-white p-8">
-            <div class="flex-1 bg-white p-8">
+            <div className="flex-1 bg-white p-8">
               {/*  */}
               <Contact />
               {/*  */}

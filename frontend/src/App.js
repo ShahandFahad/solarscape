@@ -1,10 +1,12 @@
 import AuthProvider from "./provider/authProvider";
 import Routes from "./routes";
-
+import StoreProvider from "./provider/StoreProvider";
 function App() {
   return (
     <AuthProvider>
-      <Routes />
+      <StoreProvider>
+        <Routes />
+      </StoreProvider>
     </AuthProvider>
   );
 }

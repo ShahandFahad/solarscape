@@ -30,21 +30,24 @@ export default function HowToUse({
       <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
         <div className="w-full flex flex-col 2xl:w-2/4">
           <div className="flex-1 bg-white p-8">
-            <div class="flex-1 bg-white p-8">
-              <h4 class="text-xl text-gray-900 font-bold">
+            <div className="flex-1 bg-white p-8">
+              <h4 className="text-xl text-gray-900 font-bold">
                 {howToUseSubtitle1}
               </h4>
-              <p class="mt-2 text-gray-700">{howToUseSubtitle2}</p>
+              <p className="mt-2 text-gray-700">{howToUseSubtitle2}</p>
               {/*  */}
               {/* <!-- start::Timeline item --> Iterate over steps*/}
               {howToUseSteps.map((step) => {
                 return (
-                  <div class="flex items-center w-full my-6 -ml-1.5">
-                    <div class="w-1/12 z-10">
-                      <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
+                  <div
+                    key={step}
+                    className="flex items-center w-full my-6 -ml-1.5"
+                  >
+                    <div className="w-1/12 z-10">
+                      <div className="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
                     </div>
-                    <div class="w-11/12">
-                      <p class="text-sm">{step}</p>
+                    <div className="w-11/12">
+                      <p className="text-sm">{step}</p>
                     </div>
                   </div>
                 );
@@ -58,8 +61,8 @@ export default function HowToUse({
         {/* <div className="flex-1 bg-white p-8">Image HERE</div> */}
         <div className="w-full flex flex-col 2xl:w-2/4">
           <div className="flex-1 bg-white p-8 ">
-            <div class="flex-1 bg-gray-50 rounded-lg shadow-xl p-8">
-              <p class="mt-2 text-gray-700 ">
+            <div className="flex-1 bg-gray-50 rounded-lg shadow-xl p-8">
+              <p className="mt-2 text-gray-700 ">
                 <img className="rounded-lg" src={SolarResultImage} alt="" />
               </p>
             </div>
