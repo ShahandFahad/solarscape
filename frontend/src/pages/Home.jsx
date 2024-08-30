@@ -22,6 +22,7 @@ import SolarData from "../components/datainputandresult/SolarData";
 import Results from "../components/datainputandresult/Results";
 import axios from "axios";
 import Corodinate from "../components/datainputandresult/Corodinate";
+import { getSolarPOV } from "../service/api";
 
 /**
  * - Set initial home screen for user
@@ -180,10 +181,14 @@ export default function Home() {
       // Display each user history in recent activity of user
       formData.coordinates = { lat: newCenter[0], lon: newCenter[1] };
       formData.user = { id: localStorage.getItem("UserID") };
-      const res = await axios.post(
-        "http://localhost:8003/api/v1/solar/pv-assessment",
-        formData
-      );
+      // const res = await axios.post(
+      //   "http://localhost:8003/api/v1/solar/pv-assessment",
+      //   formData
+      // );
+
+      // TODO: Verify result of this
+      const res = await getSolarPOV(formData);
+
       console.log("Server Request: ", formData);
       console.log("Server Response: ", res);
       console.log("Server Status: ", res.data.status);
