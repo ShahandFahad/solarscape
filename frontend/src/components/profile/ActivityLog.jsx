@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-// TODO: Remove, errors, when no activity is available
+import { getRecentActivity } from "../../service/api";
 
 // Convert time stamp into: X hours etc ago
 function formatTimeAgo(timestamp) {
@@ -33,14 +31,17 @@ export default function ActivityLog() {
   const [recentActivity, setRecentActivity] = useState([]);
   // Get all the recent user activity and displays here
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:8001/api/v1/user/store-assessment-history/${localStorage.getItem(
-          "UserID"
-        )}`
-      )
-      .then((res) => setRecentActivity(res.data.allAssessments))
-      .catch((error) => console.log("Recent Activity Error: ", error));
+    const fetchData = async () => {
+      try {
+        const response = await getRecentActivity(
+          localStorage.getItem("UserID")
+        );
+        setRecentActivity(response.data.allAssessments);
+      } catch (error) {
+        console.log("Recent Activity Error: ", error);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
