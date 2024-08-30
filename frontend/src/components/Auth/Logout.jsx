@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { StoreContext } from "../../context/Context";
 // Custom loader
 const Spinner = styled.div`
   width: 80px;
@@ -36,7 +37,7 @@ const LogOut = styled.div`
 const Logout = () => {
   const { setToken } = useAuth();
   const navigate = useNavigate();
-
+  const { userIsSignedOut } = useContext(StoreContext);
   //   Just remove the token from local storage and navigate back to login page
   const handleLogout = () => {
     setToken();
@@ -44,6 +45,11 @@ const Logout = () => {
     if (localStorage.getItem("UserRole")) {
       localStorage.removeItem("UserRole");
     }
+
+    // Incase if token in not removed then remove it manually
+    if (localStorage.getItem("token")) localStorage.removeItem("token");
+    // Update user state
+    userIsSignedOut();
     navigate("/login", { replace: true });
   };
 

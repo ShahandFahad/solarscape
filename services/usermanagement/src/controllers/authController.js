@@ -184,7 +184,7 @@ exports.updateprofile = catchAsync(async (req, res, next) => {
    * Send the specfied field a user require and eleminate all the extra fields
    */
   console.log(req.params.id);
-  console.log(req.body);
+  console.log("REQQ: ", req.body);
   // Only allow the required filed to store in DB
   // Return a promise so use await
   /**
@@ -192,13 +192,19 @@ exports.updateprofile = catchAsync(async (req, res, next) => {
    * The reason is that findByIdAndUpdate bypasses Mongoose middleware.
    * To enable middleware execution, you can use the alternative findOneAndUpdate method and pass the runValidators and new options.
    */
+  const { email, firstName, lastName, password, confirmPassword } = req.body;
   const newUser = await User.findOneAndUpdate(
     { _id: req.params.id },
     {
-      email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      password: req.body.password, // Encrypt password before saving
+      email,
+      firstName,
+      lastName,
+      password,
+      // confirmPassword,
+      // email: req.body.email,
+      // firstName: req.body.firstName,
+      // lastName: req.body.lastName,
+      // password: req.body.password, // Encrypt password before saving
       // confirmPassword: req.body.confirmPassword,
     },
     {

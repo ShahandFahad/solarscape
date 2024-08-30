@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import sun from "../../assets/images/sun.png";
-
+import { StoreContext } from "../../context/Context";
 // Import validators
 import {
   validateEmail,
@@ -24,7 +24,6 @@ import "react-toastify/dist/ReactToastify.css";
  *  6) Incase of any other error: Display red toast: Register unsuccessful
  */
 import styled from "styled-components";
-import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
 import { userSignUp } from "../../service/api";
 // Custom loader
@@ -66,7 +65,7 @@ export default function Signup() {
   // Auth
   const { setToken } = useAuth();
   const navigate = useNavigate();
-
+  const { userIsLoggedIn } = useContext(StoreContext);
   // Data
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -220,6 +219,7 @@ export default function Signup() {
 
         // When user is successfully registered
         if (response.status === 201) {
+          userIsLoggedIn(); // update user state
           console.log("User signed up successfully!");
           console.log(response.data);
           setResponseData(response.data);
