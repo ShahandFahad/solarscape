@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { DELETE_USER_BY_ID } from "../../utils/apiCalls";
+import { DELETE_USER_BY_ID } from "../../service/apiCalls";
 
 export default function DeleteUserPopUp({ setShowDeleteUser, clickedUserId }) {
   const notify = (errName) =>

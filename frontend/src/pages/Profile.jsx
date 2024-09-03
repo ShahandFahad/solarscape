@@ -27,6 +27,7 @@ import { useAuth } from "../provider/authProvider";
 import PersonalInfo from "../components/profile/PersonalInfo";
 import ActivityLog from "../components/profile/ActivityLog";
 import Spinner from "../components/spinner/Spinner";
+import { getUserById, updateUserProfile } from "../service/api";
 
 export default function Profile() {
   const [email, setEmail] = useState("");
@@ -56,18 +57,40 @@ export default function Profile() {
 
   //   Const Get Current User
   useEffect(() => {
-    const currentUserID = localStorage.getItem("UserID");
-    axios
-      .get(`http://localhost:8001/api/v1/user/${currentUserID}`)
-      .then((res) => {
+    const fetchUserData = async () => {
+      const currentUserID = localStorage.getItem("UserID");
+      try {
+        const res = await getUserById(currentUserID);
+
+        // Check for error - in most cases it will be token expriy so, logout user
+        if (res.data.error) {
+          console.log(
+            "USER PROFILE RESPONSE ERROR USER WILL BE LOGGED Out: ",
+            res.data.error
+          );
+          navigate("/logout", { replace: true });
+        }
+
         setCurrentUser(res.data.user);
         // Update the input states
         setEmail(res.data.user.email);
         setFirstName(res.data.user.firstName);
         setLastName(res.data.user.lastName);
-      })
-      .catch((err) => console.log(`User Data Not Recied: ${err.message}`));
-    console.log("Testing");
+      } catch (error) {
+        console.log("USER PROFILE ERROR ", error);
+      }
+    };
+    fetchUserData();
+    // axios
+    // .get(`http://localhost:8001/api/v1/user/${currentUserID}`)
+    // .then((res) => {
+    //   setCurrentUser(res.data.user);
+    //   // Update the input states
+    //   setEmail(res.data.user.email);
+    //   setFirstName(res.data.user.firstName);
+    //   setLastName(res.data.user.lastName);
+    // })
+    // .catch((err) => console.log(`User Data Not Recied: ${err.message}`));
   }, [setToken]); // update data when token is updated
 
   //
@@ -160,7 +183,7 @@ export default function Profile() {
     // Prevent the browser from reloading the page
     e.preventDefault();
     // User signup data
-    const signUpData = {
+    const userData = {
       email,
       firstName,
       lastName,
@@ -172,7 +195,7 @@ export default function Profile() {
     let EVERYTHING_OK = true;
 
     // If email is empty the display red border and toast
-    if (!signUpData.email || !validateEmail(signUpData.email)) {
+    if (!userData.email || !validateEmail(userData.email)) {
       setEmailBorderColor({
         border: errorStyle,
       });
@@ -182,7 +205,7 @@ export default function Profile() {
     }
 
     // If first name is empty then display red border
-    if (!signUpData.firstName || signUpData.firstName.length < 4) {
+    if (!userData.firstName || userData.firstName.length < 4) {
       setFirstNameBorderColor({
         border: errorStyle,
       });
@@ -191,7 +214,7 @@ export default function Profile() {
       EVERYTHING_OK = false;
     }
     // If last name is empty then display red border
-    if (!signUpData.lastName || signUpData.lastName.length < 4) {
+    if (!userData.lastName || userData.lastName.length < 4) {
       setLastNameBorderColor({
         border: errorStyle,
       });
@@ -201,9 +224,7 @@ export default function Profile() {
     }
     // Compare both password and set border color Check for empty
     // Also display toast message: Password doesnot match
-    if (
-      !validateConfirmPassword(signUpData.password, signUpData.confirmPassword)
-    ) {
+    if (!validateConfirmPassword(userData.password, userData.confirmPassword)) {
       setPasswordBorderColor({
         border: errorStyle,
       });
@@ -219,16 +240,18 @@ export default function Profile() {
     // If Everything is ok then make request to server
     // Register | Signup User
     if (EVERYTHING_OK) {
-      // console.log(signUpData);
-      // console.log(JSON.stringify(signUpData));
+      // console.log(userData);
+      // console.log(JSON.stringify(userData));
       setIsLoading(true);
+      console.log("USER DATA: ", userData);
       try {
-        const response = await axios.patch(
-          `http://localhost:8001/api/v1/user/update-profile/${localStorage.getItem(
-            "UserID"
-          )}`,
-          signUpData
-        );
+        // const response = await axios.patch(
+        //   `http://localhost:8001/api/v1/user/update-profile/${localStorage.getItem(
+        //     "UserID"
+        //   )}`,
+        //   userData
+        // );
+        const response = await updateUserProfile(userData);
 
         // When user is successfully registered
         if (response.status === 201) {

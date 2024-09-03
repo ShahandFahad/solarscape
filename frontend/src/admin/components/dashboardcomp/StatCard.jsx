@@ -2,7 +2,7 @@ import React from "react";
 
 export default function StatCard({ name, value, icon, color }) {
   return (
-    <div className="px-6 py-6 bg-gray-100 border border-gray-300 rounded-lg shadow-xl">
+    <div className="px-6 py-6 bg-gray-100 border border-gray-300 rounded-md shadow">
       <div className="flex items-center justify-between">
         <span className={`font-bold text-sm ${color}`}>{name}</span>
       </div>

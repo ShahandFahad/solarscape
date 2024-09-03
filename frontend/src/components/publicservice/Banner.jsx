@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Bulb from "../../assets/images/solar-energy-llight-bulb.png";
+import { StoreContext } from "../../context/Context";
 
 const BannerBox = styled.div`
   --border-radius-hero: 24px;
@@ -44,6 +45,8 @@ const BannerShape = styled.section`
 `;
 
 export default function Banner() {
+  // get user user state
+  const { state } = useContext(StoreContext);
   return (
     <BannerBox>
       <BannerShape className="text-gray-600 body-font bg-white dark:bg-orange-500">
@@ -56,27 +59,30 @@ export default function Banner() {
               Findout solar potential for your specfied location by searching
               your location.
             </p>
-            <div className="flex justify-center">
-              <a
-                href="/login"
-                className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-10 h-8 text-orange-500"
+            {/* If user is not logged in then display this button */}
+            {!state && (
+              <div className="flex justify-center">
+                <a
+                  href="/login"
+                  className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                  />
-                </svg>
-              </a>
-            </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-10 h-8 text-orange-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+                    />
+                  </svg>
+                </a>
+              </div>
+            )}
           </div>
           <div className="lg:max-w-lg lg:w-full mb-5 md:mb-0 md:w-1/2 w-3/6">
             <img

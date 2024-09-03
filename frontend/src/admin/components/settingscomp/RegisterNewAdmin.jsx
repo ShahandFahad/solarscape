@@ -10,7 +10,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { REGISTER_NEW_ADMIN } from "../../utils/apiCalls";
+import { REGISTER_NEW_ADMIN } from "../../service/apiCalls";
 import { useAuth } from "../../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
 

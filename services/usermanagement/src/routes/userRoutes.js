@@ -45,6 +45,19 @@ router
   );
 // These routes are managed by SYSTEM Admin
 
+//todo: chain verify otp and reset password. think about and chain them.
+// Forget password
+router.route("/forget-password/send-otp").post(userController.forgetPassword);
+// Verify OTP
+router
+  .route("/forget-password/verify-otp")
+  .post(userController.otpVerification);
+
+// Update password
+router
+  .route("/forget-password/reset-password")
+  .put(userController.resetPassword);
+
 // Router setup
 router
   .route("/")
@@ -67,6 +80,7 @@ router
   )
   .patch(
     authController.protect /* (middleware) First protect route: Check login*/,
+    authController.restrictTo("admin"),
     userController.updateUser
   )
   .delete(
@@ -82,5 +96,5 @@ router
     authController.restrictTo("admin") /* Restrict operation to system admin*/,
     userController.userTimeLineStats
   );
-
+router.route("/send-feedback").post(userController.sendFeedback);
 module.exports = router;

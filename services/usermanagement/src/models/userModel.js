@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please provide email!"],
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email!"],
   },
@@ -46,6 +45,12 @@ const userSchema = new mongoose.Schema({
     },
     default: "user",
   },
+  // Forget password
+  otp: { type: Number, default: null },
+  otpVerified: {
+    type: Boolean,
+    default: false,
+  },
   // Incase if user deleted itself. Mark user as inactive
   active: {
     type: Boolean,
@@ -75,14 +80,43 @@ const userSchema = new mongoose.Schema({
 
 // This middleware will run for profile update
 userSchema.pre("findOneAndUpdate", async function (next) {
+  // get all the fields
+  let updatedData = this.getUpdate();
+
+  // Extract fileds from set, which are to be updated
   // Get the updated fields and salt password form it
-  let data = this.getUpdate();
+  /**
+   * Get Update data.
+   * Incase if the data is updated via $set method than get data from via $set property
+   * If $set property is not used then get the data directly.
+   *
+   * The OR (||) operator is used. As such that incase if one of them is undefined then get data from the one which is defined to avoid any possible error beacuse of undefined fields.
+   */
+  let data = updatedData.$set || updatedData;
+  // Incase user want to update something else via findOneAndUpdate other than password.
+  // Return to next middleware immediatly
+  if (!data.password) next();
+
+  // get salt
   const salt = await bcrypt.genSalt();
+  // Hash and salt the password
   data.password = await bcrypt.hash(data.password, salt);
 
   // Call next middleware
   next();
 });
+
+// // This middleware will run for profile update
+// userSchema.pre("findOneAndUpdate", async function (next) {
+//   // Get the updated fields and salt password form it
+//   let data = this.getUpdate();
+//   const salt = await bcrypt.genSalt();
+//   data.password = await bcrypt.hash(data.password, salt);
+
+//   // Call next middleware
+//   next();
+// });
+
 userSchema.pre("save", async function (next) {
   // If password is not modified then return
   if (!this.isModified("password")) return next();

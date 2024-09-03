@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import StatCard from "../components/dashboardcomp/StatCard";
-import { GET_ALL_USERS, GET_USER_TIMELINE } from "../utils/apiCalls";
+import { GET_ALL_USERS, GET_USER_TIMELINE } from "../service/apiCalls";
 import { useAuth } from "../../provider/authProvider";
 import { useNavigate } from "react-router-dom";
 import SimpleBarChart from "../components/dashboardcomp/BarChart";
+import SimplePieChart from "../components/dashboardcomp/PieChart";
 
 // Stat Icons
 const SidebarItems = {
@@ -122,7 +123,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col w-full 2xl:w-3/3">
-      <div className="flex-1 bg-white rounded-lg mt-4 p-8">
+      <div className="flex-1 bg-white rounded-lg mt-4 p-4">
         {/* Stat Cards */}
         <h4 className="text-xl text-gray-900 font-bold">Statistics</h4>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
@@ -147,14 +148,27 @@ export default function Dashboard() {
         </div>
 
         {/* Users Timeline */}
-        <div className="bg-white rounded-lg mt-10">
+        <div className="bg-white rounded-md mt-10">
           <h4 className="text-xl text-gray-900 font-bold">User Timeline</h4>
-          <div className="mt-4 px-6 py-6 bg-gray-50 border border-gray-300 rounded-lg shadow-xl">
-            {userTimelineData !== null ? (
-              <SimpleBarChart userTimelineData={userTimelineData} />
-            ) : (
-              <></>
-            )}
+          <div
+            className="flex lg:flex-row flex-col gap-2 items-center flex-wrap
+          mt-4 px-6 py-6 bg-gray-50 border border-gray-300 rounded-lg shadow"
+          >
+            {/* Barchart */}
+            <div className="flex-1">
+              {userTimelineData !== null ? (
+                <SimpleBarChart userTimelineData={userTimelineData} />
+              ) : (
+                <></>
+              )}
+            </div>
+            {/* Pie chart */}
+            <div>
+              <SimplePieChart
+                totalActiveCount={totalActiveCount}
+                totalInActiveCount={totalInActiveCount}
+              />
+            </div>
           </div>
         </div>
       </div>

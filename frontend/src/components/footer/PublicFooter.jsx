@@ -3,29 +3,35 @@ import logo from "../../assets/images/logo.png";
 import "./footerstyle.css";
 export default function PublicFooter() {
   return (
-    <div class="footer-wrapper border-gradient-top">
-      <div class="footer-title-link">
-        <img alt="logo" class="footer-logo" src={logo} />
+    <div className="footer-wrapper border-gradient-top">
+      <div className="footer-title-link">
+        <img alt="logo" className="footer-logo" src={logo} />
       </div>
-      <span class="footer-links">
-        <a class="footer-link" href="/about-us">
+      <div className="footer-links">
+        <span className="footer-link">
+          CUIST FYP, All Rights Reserved 2024.
+        </span>
+        {/* 
+        <a className="footer-link" href="/about-us">
           About
         </a>
-        <a class="footer-link" href="/about-us">
+        <a className="footer-link" href="/about-us">
           Contact
         </a>
-        <a class="footer-link" href="/login">
+        <a className="footer-link" href="/login">
           Login
         </a>
-        <a class="footer-link" href="/signup">
+        <a className="footer-link" href="/signup">
           Signup
         </a>
-        <button class="footer-link btn-text mobile-hide">
-          <a class="footer-link" href="/about-us">
+        <button className="footer-link btn-text mobile-hide">
+          <a className="footer-link" href="/about-us">
             Send feedback
           </a>
         </button>
-      </span>
+      
+      */}
+      </div>
     </div>
   );
 }

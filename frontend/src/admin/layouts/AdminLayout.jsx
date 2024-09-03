@@ -13,20 +13,8 @@ export default function MainLayout() {
       <Navbar />
       {/* Basic Routes need to authorized */}
       <div className="mt-12">
-        {/* 
-
-           All Admin Panel Routes
-
-           /admin -> Admin Home Route
-           /admin/analytics -> Admin Analytics Route
-           /admin/users -> Admin Users Route
-           /admin/settings -> Admin Users Route
-
-        */}
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          {/* <Route path="dashboard/" element={<Dashboard />} /> */}
-          {/* <Route path="analytics" element={<Analytics />} /> */}
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<Settings />} />
         </Routes>

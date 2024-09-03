@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import sun from "../../assets/images/sun.png";
-
+import { StoreContext } from "../../context/Context";
 // Import validators
 import {
   validateEmail,
@@ -24,8 +24,8 @@ import "react-toastify/dist/ReactToastify.css";
  *  6) Incase of any other error: Display red toast: Register unsuccessful
  */
 import styled from "styled-components";
-import axios from "axios";
 import { useAuth } from "../../provider/authProvider";
+import { userSignUp } from "../../service/api";
 // Custom loader
 const Spinner = styled.div`
   width: 24px;
@@ -65,7 +65,7 @@ export default function Signup() {
   // Auth
   const { setToken } = useAuth();
   const navigate = useNavigate();
-
+  const { userIsLoggedIn } = useContext(StoreContext);
   // Data
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -211,13 +211,15 @@ export default function Signup() {
       // console.log(JSON.stringify(signUpData));
       setIsLoading(true);
       try {
-        const response = await axios.post(
-          `http://localhost:8001/api/v1/user/signup`,
-          signUpData
-        );
+        // const response = await axios.post(
+        //   `http://localhost:8001/api/v1/user/signup`,
+        //   signUpData
+        // );
+        const response = await userSignUp(signUpData);
 
         // When user is successfully registered
         if (response.status === 201) {
+          userIsLoggedIn(); // update user state
           console.log("User signed up successfully!");
           console.log(response.data);
           setResponseData(response.data);
@@ -374,7 +376,8 @@ export default function Signup() {
                 </div>
               </div>
               <div className="pt-4 flex items-center space-x-4 mb-4">
-                <button
+                <Link
+                  to="/service"
                   style={{ backgroundColor: "#f2f2f2" }}
                   className="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
                 >
@@ -393,7 +396,7 @@ export default function Signup() {
                     ></path>
                   </svg>
                   Cancel
-                </button>
+                </Link>
                 <button
                   style={{ background: "#f76b1c" }}
                   className="flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none"
