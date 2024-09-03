@@ -117,19 +117,12 @@ export const getSolarPOV = async (data) => {
 };
 
 // Send user feedback
-export const sendUserFeedback = async (
-  userName,
-  userEmail,
-  userSubject,
-  userMessage
-) => {
+export const sendUserFeedback = async (feedback) => {
   try {
-    const res = await axios.post(`${userManagementBaseUrl}/send-feedback`, {
-      userName,
-      userEmail,
-      userSubject,
-      userMessage,
-    });
+    const res = await axios.post(
+      `${userManagementBaseUrl}/send-feedback`,
+      feedback
+    );
     return res;
   } catch (error) {
     return error;

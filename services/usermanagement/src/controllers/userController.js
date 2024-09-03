@@ -2,7 +2,7 @@ const UserAssessment = require("../models/assessmentModel");
 const User = require("../models/userModel");
 const getMonthName = require("../utils/monthName");
 const generateOtp = require("../utils/otpGenerator");
-// const sendEmail = require("../utils/sendemail");
+const sendEmail = require("../utils/sendemail");
 
 // GET: Get all users from DB
 exports.getAllUsers = async (req, res) => {
@@ -264,9 +264,7 @@ exports.forgetPassword = async (req, res) => {
       // Get 4 digit otp: Utility function
       const otp = generateOtp();
 
-      // TODO: Uncomment this after installing nodemailer from npm
       // Send one copy to user via email
-      /*
       sendEmail(
         process.env.EMAIL_SENDER,
         process.env.ADMIN_EMAIL,
@@ -277,7 +275,7 @@ exports.forgetPassword = async (req, res) => {
         <p>Verify your otp and reset your password</p>
         <p><i>If you did not request this otp, you can successfully ignore this message.</i></p>`
       ).catch((error) => console.log("OTP Email Sending Error: ", error));
-*/
+
       /**
        * AS WE HAVE USER, NOW WE WILL UPDATE USER BY ID
        */
@@ -399,20 +397,18 @@ exports.resetPassword = async (req, res) => {
 
 // Send public feedback
 exports.sendFeedback = async (req, res) => {
-  // TODO: Uncomment this code after intalling nodemailer
   try {
-    const { userName, userEmail, userSubject, userMessage } = req.body;
-    console.log("Feebback is sending from...", userName);
+    const { name, email, subject, message } = req.body;
+    sendEmail(
+      process.env.FEEDBACK_NAME,
+      process.env.ADMIN_EMAIL,
+      process.env.FEEDBACK_EMAIL, // feedback email which revice feedback (admin email)
+      subject,
+      `<b>This is a Feeback Email from ${name}.</b>.
+      <p>User Email is ${email}</p>
+      <p>User Message is: ${message}</p>`
+    ).catch((error) => console.log("Feedback Email Sending Error: ", error));
     res.status(200).json({ status: "Success", message: "Feedback Recieved" });
-    // sendEmail(
-    //   process.env.EMAIL_SENDER,
-    //   process.env.ADMIN_EMAIL,
-    //   process.env.FEEDBACK_EMAIL, // feedback email which revice feedback (admin email)
-    //   userSubject,
-    //   `<b>This is a Feeback Email from ${userName}.</b>.
-    //     <p>User Email is ${userEmail}</p>
-    //     <p>User Message is ${userMessage}</p>`
-    // ).catch((error) => console.log("Feedback Email Sending Error: ", error));
   } catch (error) {
     res
       .status(400)

@@ -39,12 +39,7 @@ export default function Contact() {
     }
     // Send feedback
     try {
-      const response = await sendUserFeedback({
-        name: form.name,
-        email: form.email,
-        subject: form.subject,
-        message: form.message,
-      });
+      const response = await sendUserFeedback(form);
       notify("Thankyou for your feedback.");
       console.log(response);
     } catch (error) {
