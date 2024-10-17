@@ -75,8 +75,8 @@ export default function Dashboard() {
     // Fetch All Users
     GET_ALL_USERS()
       .then((response) => {
-        console.log(response);
-        if (response.name === "TokenExpiredError") {
+       
+       if (response.name === "TokenExpiredError") {
           setToken();
           navigate("/explore", { replace: true });
         } else {
@@ -91,7 +91,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const userTimeline = await GET_USER_TIMELINE();
-        console.log(userTimeline);
+        
         // Process userTimeline data here
         setUserTimelineData(userTimeline.data);
       } catch (error) {

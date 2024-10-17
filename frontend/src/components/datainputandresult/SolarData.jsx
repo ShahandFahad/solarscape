@@ -22,7 +22,6 @@ export default function SolarData({
   const handleSubmit = (e) => {
     e.preventDefault();
     // Pass data to parent: Home.jsx
-    // setIsLoading(true);
     setAddress("");
     try {
       // Submit data
@@ -33,9 +32,6 @@ export default function SolarData({
         azimuthAngel,
       });
       // Display loading for 1.5 seconds
-      // setTimeout(() => {
-      //   setIsLoading(false);
-      // }, 1500);
     } catch (error) {
       console.log(error);
     } finally {
@@ -122,14 +118,8 @@ export default function SolarData({
         {/* <span className="dark:text-gray-400"> */}
         {/* Tick the box to add additional raw data for improved perfomrance. */}
         {/* <br /> */}
-        {/* TODO: */}
-        {/* Navigate to Public landing page where each field is explained */}
-        {/* <a href="service">Learn more.</a>
-          </span>
-        </div> */}
         <span className="dark:text-gray-400">
           {/* Tick the box to add additional raw data for improved perfomrance. */}
-          {/* TODO: */}
           {/* Navigate to Public landing page where each field is explained */}
           <a href="service" title="Learn more">
             <svg
@@ -152,12 +142,10 @@ export default function SolarData({
 
         {/* Run Button */}
         <div className="flex justify-end">
-          {/* TODO: UPDATE THIS BUTTON. WHEN CORDINATES ARE AVAILABLE MAKE IT ENABLE */}
           <button
             disabled={!addressFound}
             type="submit"
             style={{ height: 36.4, width: 56.04 }}
-            // onClick={handleClick}
             className={`${
               !addressFound
                 ? "bg-gray-300 text-gray-300"

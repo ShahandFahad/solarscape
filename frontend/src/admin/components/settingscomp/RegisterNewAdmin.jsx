@@ -188,7 +188,6 @@ export default function RegisterNewAdmin({ setShowAdminRegisterForm }) {
             navigate("/explore", { replace: true });
           }
           if (response.status === 200) {
-            console.log(response);
             notifyAdminRegister();
             // Set Fields to empty
             setEmail("");
@@ -201,7 +200,6 @@ export default function RegisterNewAdmin({ setShowAdminRegisterForm }) {
           }
         })
         .catch((error) => {
-          console.log(error);
           notifyError(error.name);
         });
     } else {

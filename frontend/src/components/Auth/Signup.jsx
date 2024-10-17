@@ -207,37 +207,25 @@ export default function Signup() {
     // If Everything is ok then make request to server
     // Register | Signup User
     if (EVERYTHING_OK) {
-      // console.log(signUpData);
-      // console.log(JSON.stringify(signUpData));
       setIsLoading(true);
       try {
-        // const response = await axios.post(
-        //   `http://localhost:8001/api/v1/user/signup`,
-        //   signUpData
-        // );
         const response = await userSignUp(signUpData);
 
         // When user is successfully registered
         if (response.status === 201) {
           userIsLoggedIn(); // update user state
-          console.log("User signed up successfully!");
-          console.log(response.data);
           setResponseData(response.data);
 
           // redirect to success page
           // Set token to local storage and naviage
           // setToken(response.data.token);
           // navigate("/", { replace: true }); // load home screen client side
-          console.log("User is Signed UP!: ", response.status);
-          console.log(response.data);
-          console.log(response.data.data.user._id);
           localStorage.setItem("UserID", response.data.data.user._id);
           // Store user login token
           setToken(response.data.token);
           // Navigate user to home page
           navigate("/", { replace: true });
         } else {
-          console.error("Error signing up user:", response.data);
           // Handle API error gracefully, e.g., display user-friendly message
           // Notify user if fails
           notify(response.data.name);

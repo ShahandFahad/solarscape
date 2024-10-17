@@ -57,7 +57,6 @@ export default function ActivityLog() {
         {/* ITERATION OVER ACTIVITY: Get each recent activity one by one */}
         {recentActivity &&
           recentActivity.map((activity, index) => {
-            // console.log("Index: ", index);
             if (!showMore && index < 3) {
               return (
                 <div
@@ -114,7 +113,6 @@ export default function ActivityLog() {
             </button>
           </h1>
         )}
-        {/* {console.log(recentActivity.length)} */}
         {/* <!-- end::Timeline item --> */}
       </div>
     </div>

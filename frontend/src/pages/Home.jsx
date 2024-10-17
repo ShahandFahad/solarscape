@@ -117,15 +117,6 @@ export default function Home() {
       [90, 180],
     ]);
 
-    // Initial Request so that data loads first for a specific location
-    // provider
-    //   .search({ query: "Pakistan" })
-    //   .then(function (result) {
-    //     // Set new initial center
-    //     setNewCenter([result[0].y, result[0].x]);
-    //     console.log("New Center on Map load: ", newCenter);
-    //   })
-    //   .catch((error) => error.message);
   }, []);
 
   // Setup custom marker for the map
@@ -142,10 +133,8 @@ export default function Home() {
   // Get address from user and search locaiton for the address
   const handleClick = async (e) => {
     if (address.length === 0) {
-      console.log("No address provided");
       // Add user-friendly notification for empty address
     } else {
-      console.log("Address: ", address);
       setIsLoading(true);
       // If Result card is open then close it to avoid screen blocking
       setResult(null);
@@ -158,11 +147,9 @@ export default function Home() {
           searchResult[0].y.toFixed(4),
           searchResult[0].x.toFixed(4),
         ]);
-        console.log("Address Found: New Coordinates: ", newCenter);
         setIsLoading(false);
         setAddressFound(true);
       } catch (error) {
-        console.error("Address retrieval failed:", error.message);
         // Display a user-friendly error message
         notify();
       } finally {
@@ -181,18 +168,8 @@ export default function Home() {
       // Display each user history in recent activity of user
       formData.coordinates = { lat: newCenter[0], lon: newCenter[1] };
       formData.user = { id: localStorage.getItem("UserID") };
-      // const res = await axios.post(
-      //   "http://localhost:8003/api/v1/solar/pv-assessment",
-      //   formData
-      // );
 
-      // TODO: Verify result of this
       const res = await getSolarPOV(formData);
-
-      console.log("Server Request: ", formData);
-      console.log("Server Response: ", res);
-      console.log("Server Status: ", res.data.status);
-      console.log("Server Data: ", res.data.solarpvdata);
 
       // Store the result in this form
       // System info: The data posted to server
@@ -203,7 +180,6 @@ export default function Home() {
       };
       setResult(systemInfoAndResult);
     } catch (error) {
-      console.log(error);
       alert("Could not find any weather stations within the 2,000 mile limit.");
     } finally {
       setResultLoading(false);

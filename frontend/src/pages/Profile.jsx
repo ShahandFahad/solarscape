@@ -27,7 +27,7 @@ import { useAuth } from "../provider/authProvider";
 import PersonalInfo from "../components/profile/PersonalInfo";
 import ActivityLog from "../components/profile/ActivityLog";
 import Spinner from "../components/spinner/Spinner";
-import { getUserById, updateUserProfile } from "../service/api";
+import { deleteUserAccount, getUserById, updateUserProfile } from "../service/api";
 
 export default function Profile() {
   const [email, setEmail] = useState("");
@@ -64,10 +64,6 @@ export default function Profile() {
 
         // Check for error - in most cases it will be token expriy so, logout user
         if (res.data.error) {
-          console.log(
-            "USER PROFILE RESPONSE ERROR USER WILL BE LOGGED Out: ",
-            res.data.error
-          );
           navigate("/logout", { replace: true });
         }
 
@@ -81,20 +77,7 @@ export default function Profile() {
       }
     };
     fetchUserData();
-    // axios
-    // .get(`http://localhost:8001/api/v1/user/${currentUserID}`)
-    // .then((res) => {
-    //   setCurrentUser(res.data.user);
-    //   // Update the input states
-    //   setEmail(res.data.user.email);
-    //   setFirstName(res.data.user.firstName);
-    //   setLastName(res.data.user.lastName);
-    // })
-    // .catch((err) => console.log(`User Data Not Recied: ${err.message}`));
   }, [setToken]); // update data when token is updated
-
-  //
-  // console.log("Current User", currentUser);
 
   // Toast for unsuccessful user registeration
   const notify = (errName) =>
@@ -240,10 +223,7 @@ export default function Profile() {
     // If Everything is ok then make request to server
     // Register | Signup User
     if (EVERYTHING_OK) {
-      // console.log(userData);
-      // console.log(JSON.stringify(userData));
       setIsLoading(true);
-      console.log("USER DATA: ", userData);
       try {
         // const response = await axios.patch(
         //   `http://localhost:8001/api/v1/user/update-profile/${localStorage.getItem(
@@ -255,8 +235,6 @@ export default function Profile() {
 
         // When user is successfully registered
         if (response.status === 201) {
-          console.log("User profile updated");
-          console.log(response.data);
           setResponseData(response.data);
 
           // redirect to success page
@@ -265,7 +243,6 @@ export default function Profile() {
           // navigate("/", { replace: true }); // load home screen client side
           notifyUpdateProfile();
         } else {
-          console.error("Error profile update:", response.data);
           // Handle API error gracefully, e.g., display user-friendly message
           // Notify user if fails
           notify(response.data.name);
@@ -306,19 +283,14 @@ export default function Profile() {
         });
 
         // Delete user. Permanently
-        axios
-          .delete(
-            `http://localhost:8001/api/v1/user/${localStorage.getItem(
-              "UserID"
-            )}`
-          )
+        deleteUserAccount()
           .then((res) => console.log(res))
           .catch((error) => console.log(error));
         // User press yes
         // Make user status: inactive on server and logout user
         setToken();
         localStorage.removeItem("UserID");
-        navigate("/login", { replace: true });
+        navigate("/service", { replace: true });
       }
     });
   };

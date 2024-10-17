@@ -27,7 +27,6 @@ export default function Corodinate({ lat, lon }) {
         style={{ width: "40px" }}
         type="text"
         value={lat}
-        onChange={() => console.log("Lat")}
         className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
       />
       <h1 className="text-gray-900 text-l">Lon</h1>
@@ -35,7 +34,6 @@ export default function Corodinate({ lat, lon }) {
         style={{ width: "40px" }}
         type="text"
         value={lon}
-        onChange={() => console.log("Lon")}
         className="flex-1 border h-auto p-2 rounded text-gray-900 text-l ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 outline-none"
       />
 

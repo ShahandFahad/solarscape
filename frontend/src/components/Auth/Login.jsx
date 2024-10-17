@@ -104,25 +104,14 @@ export default function Login() {
     if (EVERYTHING_OK) {
       setIsLoading(true);
       try {
-        // const response = await axios.post(
-        //   "http://localhost:8001/api/v1/user/login",
-        //   loginData
-        // );
         const response = await userSignIn(loginData);
-
-        // TODO: Handle Errors properly.
 
         // When login successfull
         if (response.status === 200 && response.data.status === "Success") {
           // When use is logged In - Set state to true
           userIsLoggedIn();
-
-          console.log("User is logged In!: ", response.status);
-          console.log(response.data);
-          console.log(response.data.data.user._id);
           // If user role is admin then store it to local storage
           if (response.data.data.user.role === "admin") {
-            console.log(response.data.data.user.role);
             localStorage.setItem("UserRole", response.data.data.user.role);
           }
           // Store User ID in local Storage
@@ -132,8 +121,6 @@ export default function Login() {
           // Navigate user to home page
           navigate("/", { replace: true });
         } else {
-          console.log("Error logging in!: ", response.data);
-
           // notify user
           notify(response.data.name);
         }

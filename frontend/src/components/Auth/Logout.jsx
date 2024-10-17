@@ -56,7 +56,6 @@ const Logout = () => {
   //   Wait for 5 sec
   setTimeout(() => {
     handleLogout();
-    console.log("User Logged Out.");
   }, 1500);
 
   return (

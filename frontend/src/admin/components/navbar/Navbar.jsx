@@ -6,23 +6,17 @@ import Topnav from "./Topnav";
 
 export default function Navbar() {
   const [displaySidebar, setdisplaySidebar] = useState(""); // By default hide side bar
-  // convert this to object: diplay key in name and link in href
-  // const navItems = ["Home", "About", "Contact", "Sign up", "Login"]; // Menu items
-
   // App links: map over this display name in lable and links in to attribute
   const links = {
     Dashboard: "/admin",
     Users: "users",
-    // Analytics: "analytics",
     Settings: "settings",
     Logout: "/logout",
-    // FAQs: "/admin",
   }; // Menu items
 
   // Toggle sidebar when hamburger button is clicked
   const toggleSideBar = (e) => {
     setdisplaySidebar(displaySidebar === "" ? "nav-open" : ""); // Toggle class
-    // console.log(`Hide Side Bar: ${hideSidebar}`); // log result
   };
 
   return (

@@ -81,7 +81,6 @@ export default function UpdateUserPassword({
             //Notify Success
             notifyPasswordUpdate();
           } else {
-            console.log("Error Updating Pass!: ", response.data);
             // Notify Error
             notify(response.data.name);
           }

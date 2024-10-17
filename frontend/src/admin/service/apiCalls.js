@@ -8,7 +8,6 @@ const userManagementBaseUrl = "http://localhost:8001";
 export const GET_ALL_USERS = async () => {
   try {
     const response = await AxiosInstance.get(`/api/v1/user`);
-    // const data_1 = console.log(response);
     return response.data;
   } catch (error) {
     console.error("ERROR:", error);
@@ -41,7 +40,6 @@ export const DELETE_USER_BY_ID = async (userID) => {
 
 // Register New Admin
 export const REGISTER_NEW_ADMIN = async (newAdmin) => {
-  console.log(newAdmin);
   try {
     const response = await AxiosInstance.post(`/api/v1/user`, newAdmin);
     return response;
