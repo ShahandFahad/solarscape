@@ -2,12 +2,13 @@ const mongoose = require("mongoose"); // elegant mongodb object modeling for nod
 
 // Connect to database using connection string
 const connectToDatabase = (connString) => {
-  mongoose
-    .connect(connString)
-    .then(() => console.log("DB successfully connected!"))
-    .catch((err) => {
-      console.error(err);
-    });
+    mongoose
+        .connect(connString)
+        .then(() => console.log("DB successfully connected!"))
+        // await User.findOneAndUpdate({ email, $set: { otp } });
+        .catch((err) => {
+            console.error(`Db connection error: ${err.name}, ${err.message}`);
+        });
 };
 
 // Export module
