@@ -2,6 +2,7 @@
 import axios from "axios";
 import AxiosInstance from "./interceptor";
 const userManagementBaseUrl = "http://localhost:8001/api/v1/user";
+const solarPVbaseURL = "http://localhost:8003/api/v1/solar";
 
 //  User Registeration
 export const userSignUp = async (data) => {
@@ -107,7 +108,7 @@ export const deleteUserAccount = async (id) => {
 export const getSolarPOV = async (data) => {
   try {
     const res = await axios.post(
-      "http://localhost:8003/api/v1/solar/pv-assessment",
+      `${solarPVbaseURL}/pv-assessment`,
       data
     );
     return res;
