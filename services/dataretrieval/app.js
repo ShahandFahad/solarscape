@@ -34,6 +34,12 @@ const limmiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     message: "Too many request - Please try again in an hour!"
 });
+
+// welcome route
+app.get("/", (req, res) => {
+    res.send("<p>Welcome to data retrieval service</p>");
+});
+
 app.use("/api", limmiter);
 
 // Data sanatization against noSql query injection
