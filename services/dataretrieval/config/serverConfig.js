@@ -27,7 +27,7 @@ connectToDatabase(connString); // Connect to DB
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(
-    `User Management: Server is running on: http://localhost:${port}`
+    `User Management: Server is running on: ${port}`
   );
 });
 

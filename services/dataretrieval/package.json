@@ -5,7 +5,7 @@
   "main": "serverConfig.js",
   "scripts": {
     "start": "nodemon config/serverConfig.js",
-    "start:prod": "SET NODE_ENV=production & nodemon config/serverConfig.js",
+    "start:prod": "SET NODE_ENV=production&nodemon config/serverConfig.js",
     "debug": "ndb config/serverConfig.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint . --ext .js --ignore-pattern node_modules/"

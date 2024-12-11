@@ -1,8 +1,9 @@
 // All Api Call to the backend services
 import axios from "axios";
 import AxiosInstance from "./interceptor";
-const userManagementBaseUrl = "http://localhost:8001/api/v1/user";
-const solarPVbaseURL = "http://localhost:8003/api/v1/solar";
+
+const userManagementBaseUrl = `${process.env.REACT_APP_USER_MANAGEMENT_SERVER_BASE_URL}/api/v1/user`;
+const solarPVbaseURL = `${process.env.REACT_APP_DATA_RETRIEVAL_SERVER_BASE_URL}/api/v1/solar`;
 
 //  User Registeration
 export const userSignUp = async (data) => {

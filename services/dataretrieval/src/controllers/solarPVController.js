@@ -75,7 +75,7 @@ exports.postSolarPV = async (req, res) => {
 
         // store user assessment
         await axios.post(
-            "http://localhost:8001/api/v1/user/store-assessment-history",
+            `${process.env.USER_MANAGEMENT_SERVER_BASE_URL}/api/v1/user/store-assessment-history`,
             userHistoryData
         );
 

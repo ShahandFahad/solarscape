@@ -17,7 +17,7 @@ import axios from "axios";
 
 // create base url and request time out
 let AxiosInstance = axios.create({
-  baseURL: "http://localhost:8001",
+  baseURL: process.env.REACT_APP_USER_MANAGEMENT_SERVER_BASE_URL,
   timeout: 5000,
 });
 
